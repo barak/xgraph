@@ -1,5 +1,6 @@
 files
 postinst.debhelper
 prerm.debhelper
+substvars
 substvars.debhelper
 tmp

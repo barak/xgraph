@@ -5,9 +5,6 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-# This is the debhelper compatability version to use.
-export DH_COMPAT=1
-
 build: build-stamp
 build-stamp:
 	dh_testdir
@@ -33,7 +30,6 @@ clean:
 
 install: build
 	dh_testdir
-	dh_testroot
 	dh_clean -k
 	dh_installdirs
 #	# Add here commands to install the package into debian/tmp.
@@ -49,7 +45,7 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 #	dh_installdebconf	
-	dh_installdocs
+	dh_installdocs --noscripts
 	dh_installexamples examples/*.xg
 #	dh_installmenu    # no menu because it needs data from file or stdin
 #	dh_installemacsen
@@ -58,7 +54,6 @@ binary-arch: build install
 #	dh_installcron
 #	dh_installman xgraph.man # installs in /usr/share/man/man1
 	cp xgraph.man debian/tmp/usr/X11R6/man/man1/xgraph.1
-	gzip --best debian/tmp/usr/X11R6/man/man1/xgraph.1
 #	dh_installinfo
 	dh_installchangelogs 
 	dh_link
