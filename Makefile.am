@@ -48,8 +48,7 @@ EXTRA_DIST=\
 	examples/xgtest.xg
 
 
-# C_WARNINGS = -Wall
-C_WARNINGS = 
+C_WARNINGS = -Wall
 CFLAGS=$(ADDITIONAL_INCLUDES)  $(C_WARNINGS) -g  $(X_CFLAGS) 
 
 xgraph_LDADD= $(ADDITIONAL_LIBS) $(X_LIBS) $(X_PRE_LIBS) $(X_EXTRA_LIBS) -lX11 -lm
