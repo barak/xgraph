@@ -31,6 +31,7 @@ install: build
 	dh_installdirs
 #	# Add here commands to install the package into debian/tmp.
 #	#$(MAKE) install DESTDIR=`pwd`/debian/tmp
+	mkdir debian/tmp/bin
 	cp -a xgraph debian/tmp/bin/xgraph
 	strip debian/tmp/bin/xgraph
 
