@@ -60,7 +60,6 @@ binary-arch: build install
 	cp xgraph.man debian/tmp/usr/X11R6/man/man1/xgraph.1
 	gzip --best debian/tmp/usr/X11R6/man/man1/xgraph.1
 #	dh_installinfo
-#	dh_undocumented
 	dh_installchangelogs 
 	dh_link
 	dh_strip
