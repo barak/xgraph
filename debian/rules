@@ -51,7 +51,7 @@ binary-arch: build install
 #	dh_installcron
 #	dh_installman xgraph.man # installs in /usr/share/man/man1
 	cp xgraph.man debian/tmp/usr/X11R6/man/man1/xgraph.1
-	gzip debian/tmp/usr/X11R6/man/man1/xgraph.1
+	gzip --best debian/tmp/usr/X11R6/man/man1/xgraph.1
 #	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs 
