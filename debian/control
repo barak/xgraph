@@ -1,8 +1,8 @@
 Source: xgraph
 Section: math
 Priority: optional
-Maintainer: Barak Pearlmutter <bap@cs.unm.edu>
-Standards-Version: 3.0.1
+Maintainer: Barak Pearlmutter <bap@debian.org>
+Standards-Version: 3.5.7
 Build-Depends: debhelper, automake, autoconf (<= 2.13-999) | autoconf2.13, xlibs-dev | xlib6g-dev
 
 Package: xgraph
