@@ -1,3 +1,9 @@
+xgraph (12.1-1) unstable; urgency=low
+
+  * new upstream version
+
+ -- Barak Pearlmutter <bap@cs.unm.edu>  Mon,  8 Oct 2001 01:23:48 -0600
+
 xgraph (11.3.2-2) unstable; urgency=low
 
   * get rid of some compiler warnings.
