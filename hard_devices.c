@@ -5,6 +5,7 @@
  * dialog is automatically constructed from this table.
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "copyright.h"

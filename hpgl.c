@@ -75,7 +75,7 @@ hpglInit(stream,width,height,title_family, title_size,
 	mydata *myInfo;
 
 	myInfo = (mydata*)malloc(sizeof(mydata));
-	if(myInfo == NULL) return(NULL);
+	if(myInfo == NULL) return(0);
     *outInfo = hpglInfo;
 	outInfo->area_w = MIN(MAXX,width/25);
 	outInfo->area_h = MIN(MAXY,height/25);
@@ -256,7 +256,7 @@ hpglSeg(userState,ns,segs,width,style,lappr,color)
 			fprintf(userState->plotterFile,"PU;PA%d,%d;",MAPX(userState,llx),
 					MAPY(userState,lly));
 			fprintf(userState->plotterFile,"PM0;");
-			fprintf(userState->plotterFile,"PD,PA%d,%D;PA%d,%D;PA%d,%d;\n",
+			fprintf(userState->plotterFile,"PD,PA%d,%d;PA%d,%d;PA%d,%d;\n",
 				MAPX(userState,lrx),MAPY(userState,lry),
 				MAPX(userState,urx),MAPY(userState,ury),
 				MAPX(userState,ulx),MAPY(userState,uly) );

@@ -59,7 +59,7 @@ Colormap cmap;			/* Colormap for colors */
  * are used to resolve font and pixel values.
  */
 {
-    param_table = st_init_table(stricmp, strihash);
+    param_table = st_init_table(strcasecmp, strihash);
     param_disp = disp;
     param_cmap = cmap;
     /* This could also be a parameter for greater generality */
@@ -263,10 +263,10 @@ XColor *color;			/* Returned color */
     int result = 1;
 
     if (XParseColor(param_disp, param_cmap, name, color)) {
-	if (stricmp(name, "black") == 0) {
+	if (strcasecmp(name, "black") == 0) {
 	    color->pixel = BlackPixel(param_disp, param_scrn);
 	    XQueryColor(param_disp, param_cmap, color);
-	} else if (stricmp(name, "white") == 0) {
+	} else if (strcasecmp(name, "white") == 0) {
 	    color->pixel = WhitePixel(param_disp, param_scrn);
 	    XQueryColor(param_disp, param_cmap, color);
 	} else {
@@ -298,7 +298,7 @@ XFontStruct **font_info;	/* Returned font information */
 
     /* First attempt to interpret as font family/size */
     (void) strcpy(name_copy, name);
-    if (font_size = index(name_copy, '-')) {
+    if ((font_size = index(name_copy, '-'))) {
 	*font_size = '\0';
 	font_family = name_copy;
 	font_size++;
@@ -313,7 +313,7 @@ XFontStruct **font_info;	/* Returned font information */
 	    
 	    /* Load first one that you can */
 	    for (i = 0;  i < font_count;  i++) {
-		if (*font_info = XLoadQueryFont(param_disp, font_list[i])) {
+		if ((*font_info = XLoadQueryFont(param_disp, font_list[i]))) {
 		    break;
 		}
 	    }
@@ -384,14 +384,14 @@ int *val;			/* Returned value        */
     char **term;
 
     for (term = positive;  *term;  term++) {
-	if (stricmp(name, *term) == 0) break;
+	if (strcasecmp(name, *term) == 0) break;
     }
     if (*term) {
 	*val = 1;
 	return 1;
     }
     for (term = negative;  *term;  term++) {
-	if (stricmp(name, *term) == 0) break;
+	if (strcasecmp(name, *term) == 0) break;
     }
     if (*term) {
 	*val = 0;
@@ -445,29 +445,6 @@ void param_dump()
 }
 
 
-#ifndef __CYGWIN__
-int stricmp(a, b)
-register char *a, *b;
-/*
- * This routine compares two strings disregarding case.
- */
-{
-    register int value;
-
-    if ((a == (char *) 0) || (b == (char *) 0)) {
-	return a - b;
-    }
-
-    for ( /* nothing */;
-	 ((*a | *b) &&
-	  !(value = ((isupper(*a) ? *a - 'A' + 'a' : *a) -
-		     (isupper(*b) ? *b - 'A' + 'a' : *b))));
-	 a++, b++)
-      /* Empty Body */;
-
-    return value;
-}
-#endif
 
 static int strihash(string, modulus)
 register char *string;

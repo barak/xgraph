@@ -23,6 +23,23 @@
 #include "params.h"
 
 
+void InitSets();
+void ReadDefaults();
+void ParseArgs();
+int ReadData();
+void DrawWindow();
+void DelWindow();
+void PrintWindow();
+int HandleZoom();
+void msg_box();
+int TransformCompute();
+void DrawTitle();
+void DrawLegend();
+void DrawGridAndAxis();
+void DrawData();
+void WriteValue();
+int getDigits();
+
 /*
  * USE_NEW_COLORS selects the default color scheme. Set to one of the following:
  *
@@ -276,7 +293,7 @@ static char *Window_Name;
 
 static int XErrHandler();	/* Handles error messages */
 
-main(argc, argv)
+int main(argc, argv)
 int argc;
 char *argv[];
 /*
@@ -386,10 +403,11 @@ char *argv[];
     /* Create initial window */
     xtb_init(disp, screen, PM_PIXEL("Foreground"), PM_PIXEL("Background"),
 	     PM_FONT("LabelFont"));
+    primary = NewWindow(
 #if !PDG
-    primary = NewWindow(Prog_Name,
+			Prog_Name,
 #else
-    primary = NewWindow(Window_Name,
+			Window_Name,
 #endif
 			PM_DBL("XLowLimit"), PM_DBL("YLowLimit"),
 			PM_DBL("XHighLimit"), PM_DBL("YHighLimit"),
@@ -443,10 +461,11 @@ char *argv[];
 	    break;
 	case ButtonPress:
 	    /* Handle creating a new window */
+	    Num_Windows += HandleZoom(
 #if !PDG
-	    Num_Windows += HandleZoom(Prog_Name,
+				      Prog_Name,
 #else
-	    Num_Windows += HandleZoom(Window_Name,
+				      Window_Name,
 #endif
 				      &theEvent.xbutton,
 				      win_info, zoomCursor);
@@ -809,7 +828,7 @@ int primary;			/* Is this the primary window? */
 }
 
 
-DelWindow(win, win_info)
+void DelWindow(win, win_info)
 Window win;			/* Window     */
 LocalWin *win_info;		/* Local Info */
 /*
@@ -828,7 +847,7 @@ LocalWin *win_info;		/* Local Info */
     Num_Windows -= 1;
 }
 
-PrintWindow(win, win_info)
+void PrintWindow(win, win_info)
 Window win;			/* Window       */
 LocalWin *win_info;		/* Local Info   */
 /*
@@ -978,7 +997,7 @@ Cursor cur;
 }
 
 
-int InitSets()
+void InitSets()
 /*
  * Initializes the data sets with default information.  Sets up
  * original values for parameters in parameters package.
@@ -1083,11 +1102,11 @@ int InitSets()
 static char *def_str;
 
 #define DEF(name, type) \
-if (def_str = XGetDefault(disp, Prog_Name, name)) { \
-    param_set(name, type, def_str); \
+if ((def_str = XGetDefault(disp, Prog_Name, (name)))) { \
+    param_set(name, (type), def_str); \
 }
 
-int ReadDefaults()
+void ReadDefaults()
 /*
  * Reads X default values which override the hard-coded defaults
  * set up by InitSets.
@@ -1192,7 +1211,7 @@ if (strcmp(argv[idx], opt) == 0) { \
 
 #define MAXLO	30
 
-int ParseArgs(argc, argv, do_it)
+void ParseArgs(argc, argv, do_it)
 int argc;
 char *argv[];
 int do_it;
@@ -1239,7 +1258,7 @@ int do_it;
 		    /* Limit the X coordinates */
 		    if (idx+1 >= argc) argerror("missing coordinate(s)",
 						argv[idx]);
-		    if (hi = index(argv[idx+1], ',')) {
+		    if ((hi = index(argv[idx+1], ','))) {
 			char low[MAXLO];
 		    
 			(void) strncpy(low, argv[idx+1], hi-argv[idx+1]);
@@ -1260,7 +1279,7 @@ int do_it;
 		    /* Limit the Y coordinates */
 		    if (idx+1 >= argc) argerror("missing coordinate(s)",
 						  argv[idx]);
-		    if (hi = index(argv[idx+1], ',')) {
+		    if ((hi = index(argv[idx+1], ','))) {
 			char low[MAXLO];
 
 			(void) strncpy(low, argv[idx+1], hi-argv[idx+1]);
@@ -1482,7 +1501,7 @@ LineInfo *result;		/* Returned result */
 	    while (*line && !isspace(*line)) line++;
 	    if (*line) {
 		*line = '\0';
-		if (stricmp(first, "move") == 0) {
+		if (strcasecmp(first, "move") == 0) {
 		    /* MOVEPNT */
 		    if (sscanf(line+1, "%lf %lf",
 			       &result->val.pnt.xval,
@@ -1492,7 +1511,7 @@ LineInfo *result;		/* Returned result */
 			result->type = ERROR;
 			result->val.str = "Cannot read move coordinates";
 		    }
-		} else if (stricmp(first, "draw") == 0) {
+		} else if (strcasecmp(first, "draw") == 0) {
 		    /* DRAWPNT */
 		    if (sscanf(line+1, "%lf %lf",
 			       &result->val.pnt.xval,
@@ -1603,7 +1622,7 @@ char *filename;
 
 
 
-int DrawWindow(win_info)
+void DrawWindow(win_info)
 LocalWin *win_info;		/* Window information */
 /*
  * Draws the data in the window.  Does not clear the window.
@@ -1633,7 +1652,7 @@ LocalWin *win_info;		/* Window information */
 
 
 
-DrawTitle(wi)
+void DrawTitle(wi)
 LocalWin *wi;		/* Window information    */
 /*
  * This routine draws the title of the graph centered in
@@ -1738,7 +1757,7 @@ LocalWin *wi;			/* Window information          */
     return 1;
 }
 
-int DrawGridAndAxis(wi)
+void DrawGridAndAxis(wi)
 LocalWin *wi;			/* Window information         */
 /*
  * This routine draws grid line labels in engineering notation,
@@ -2088,11 +2107,11 @@ next_digits: ;
 }
 #endif
 
-#if !PDG
-int WriteValue(str, val, expv, logFlag)
-#else
-int WriteValue(str, val, expv, logFlag, digits)
+void WriteValue(str, val, expv, logFlag
+#if PDG
+	       , digits
 #endif
+	       )
 char *str;			/* String to write into */
 double val;			/* Value to print       */
 int expv;			/* Exponent             */
@@ -2150,7 +2169,7 @@ else if ((xval) > wi->UsrOppX) rtn = RIGHT_CODE; \
 if ((yval) < wi->UsrOrgY) rtn |= BOTTOM_CODE; \
 else if ((yval) > wi->UsrOppY) rtn |= TOP_CODE
 
-int DrawData(wi)
+void DrawData(wi)
 LocalWin *wi;
 /*
  * This routine draws the data sets themselves using the macros
@@ -2344,7 +2363,7 @@ LocalWin *wi;
 
 
 
-int DrawLegend(wi)
+void DrawLegend(wi)
 LocalWin *wi;
 /*
  * This draws a legend of the data sets displayed.  Only those that

@@ -18,6 +18,7 @@
 #include <X11/Xutil.h>
 
 void do_error();
+int getline();
 
 #define MAXCHBUF	1024
 
@@ -265,15 +266,15 @@ xtb_data info;			/* User data         */
 	    (void) xtb_bt_set(data->docu_p, 1, (xtb_data) 0, 0);
 	    break;
 	}
-	(void) sprintf(text, "%lg", hard_devices[new].dev_max_dim);
+	(void) sprintf(text, "%g", hard_devices[new].dev_max_dim);
 	xtb_ti_set(data->dimspec, text, (xtb_data) 0);
 	xtb_ti_set(data->tf_family, hard_devices[new].dev_title_font,
 		   (xtb_data) 0);
-	(void) sprintf(text, "%lg", hard_devices[new].dev_title_size);
+	(void) sprintf(text, "%g", hard_devices[new].dev_title_size);
 	xtb_ti_set(data->tf_size, text, (xtb_data) 0);
 	xtb_ti_set(data->af_family, hard_devices[new].dev_axis_font,
 		   (xtb_data) 0);
-	(void) sprintf(text, "%lg", hard_devices[new].dev_axis_size);
+	(void) sprintf(text, "%g", hard_devices[new].dev_axis_size);
 	xtb_ti_set(data->af_size, text, (xtb_data) 0);
     }
     return XTB_HANDLED;

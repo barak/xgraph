@@ -225,11 +225,11 @@ int flags;			/* Output options */
 
     if (flags & D_DOCU) {
 	OUT(psFile, "%%%%BoundingBox: %ld %ld %ld %ld\n",
-	    0, 0,
-	    (int) (((double) width) /
-		   (MICRONS_PER_INCH * INCHES_PER_POINT)+0.5),
-	    (int) (((double) height) /
-		   (MICRONS_PER_INCH * INCHES_PER_POINT)+0.5)
+	    0L, 0L,
+	    (long) (((double) width) /
+		    (MICRONS_PER_INCH * INCHES_PER_POINT)+0.5),
+	    (long) (((double) height) /
+		    (MICRONS_PER_INCH * INCHES_PER_POINT)+0.5)
 	    );
 	psHeader(psFile, 1);
 	PS("%% Rotation and centering are turned off for inclusion in a document\n");
@@ -258,30 +258,30 @@ int flags;			/* Output options */
 	pnt_width = ((double) width) / MICRONS_PER_INCH * POINTS_PER_INCH;
 	pnt_height = ((double) height) / MICRONS_PER_INCH * POINTS_PER_INCH;
 	PS("%% Determine whether rotation is required\n");
-	OUT(psFile, "%lg page-width gt\n", pnt_width);
+	OUT(psFile, "%g page-width gt\n", pnt_width);
 	PS("{ %% Rotation required\n");
 	PS("   90 rotate\n");
 	PS("   0 page-width neg translate\n");
 	PS("   %% Handle centering\n");
 	PS("   Y-CENTER-PLOT 1 eq { %% Center in y\n");
-	OUT(psFile, "      page-height %lg sub 2 div\n", pnt_width);
+	OUT(psFile, "      page-height %g sub 2 div\n", pnt_width);
 	PS("   } { %% Don't center in y\n");
 	PS("      0\n");
 	PS("   } ifelse\n");
 	PS("   X-CENTER-PLOT 1 eq { %% Center in x\n");
-	OUT(psFile, "      page-width %lg sub 2 div\n", pnt_height);
+	OUT(psFile, "      page-width %g sub 2 div\n", pnt_height);
 	PS("   } { %% Don't center in x\n");
 	PS("      0\n");
 	PS("   } ifelse\n");
 	PS("   translate\n");
 	PS("} { %% No rotation - just handle centering\n");
 	PS("   X-CENTER-PLOT 1 eq { %% Center in x\n");
-	OUT(psFile, "      page-width %lg sub 2 div\n", pnt_width);
+	OUT(psFile, "      page-width %g sub 2 div\n", pnt_width);
 	PS("   } { %% Don't center in x\n");
 	PS("      0\n");
 	PS("   } ifelse\n");
 	PS("   Y-CENTER-PLOT 1 eq { %% Center in y\n");
-	OUT(psFile, "      page-height %lg sub 2 div\n", pnt_height);
+	OUT(psFile, "      page-height %g sub 2 div\n", pnt_height);
 	PS("   } { %% Don't center in y\n");
 	PS("      0\n");
 	PS("   } ifelse\n");
@@ -294,7 +294,7 @@ int flags;			/* Output options */
      */
     factor = POINTS_PER_INCH / VDPI;
     PS("%% Set the scale\n");
-    OUT(psFile, "%lg %lg scale\n", factor, factor);
+    OUT(psFile, "%g %g scale\n", factor, factor);
 }
 
 
@@ -437,11 +437,11 @@ int style;			/* Style                      */
     if (style != ui->currentTextStyle) {
 	switch (style) {
 	case T_AXIS:
-	    OUT(ui->psFile, "%lg /%s choose-font\n",
+	    OUT(ui->psFile, "%g /%s choose-font\n",
 		ui->axis_size * INCHES_PER_POINT * VDPI, ui->axis_family);
 	    break;
 	case T_TITLE:
-	    OUT(ui->psFile, "%lg /%s choose-font\n",
+	    OUT(ui->psFile, "%g /%s choose-font\n",
 		ui->title_size * INCHES_PER_POINT * VDPI, ui->title_family);
 	    break;
 	}
@@ -492,7 +492,7 @@ int color;			/* Zero to seven              */
 	if (lappr == 0) {
 	    PSU("[] 0 setdash\n");
 	} else {
-	    OUT(ui->psFile, "[%lg] 0 setdash\n",
+	    OUT(ui->psFile, "[%g] 0 setdash\n",
 		((double) lappr) * BASE_DASH * VDPI);
 	}
 	ui->currentDashStyle = lappr;

@@ -12,11 +12,13 @@
  * want to use any of the standards yet -- they are too unstable).
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xresource.h>
 #include "xtb.h"
 
 extern void abort();
@@ -767,7 +769,7 @@ unsigned long pix;
 }
 
 /* For debugging */
-focus_evt(evt)
+void focus_evt(evt)
 XEvent *evt;
 {
     switch (evt->xfocus.mode) {
@@ -810,7 +812,7 @@ XEvent *evt;
     }
     printf("\n");
 }
-    
+
 
 
 static xtb_hret ti_h(evt, info)
@@ -1443,4 +1445,3 @@ xtb_frame frames[];		/* Array of frames  */
 	XMoveWindow(t_disp, frames[i].win, frames[i].x_loc, frames[i].y_loc);
     }
 }
-
