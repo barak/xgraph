@@ -3,6 +3,7 @@ Section: math
 Priority: optional
 Maintainer: Barak Pearlmutter <bap@cs.unm.edu>
 Standards-Version: 3.0.1
+Build-Depends: debhelper, xlibs-dev
 
 Package: xgraph
 Architecture: any

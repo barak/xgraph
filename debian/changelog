@@ -1,8 +1,9 @@
-xgraph (11.3.2-1.1) unstable; urgency=low
+xgraph (11.3.2-2) unstable; urgency=low
 
-  * get rid of some compiler warnings.  No changes to functionality.
+  * get rid of some compiler warnings.
+  * add build dependencies
 
- -- Barak Pearlmutter <bap@cs.unm.edu>  Mon,  1 Oct 2001 02:16:05 -0600
+ -- Barak Pearlmutter <bap@cs.unm.edu>  Sun,  7 Oct 2001 02:03:33 -0600
 
 xgraph (11.3.2-1) unstable; urgency=low
 
