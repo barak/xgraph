@@ -12,16 +12,22 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 #	# Add here commands to compile the package.
-#	# OTHER OPTION: use xmkmf; make
-#	# but this "std makefile" works fine
-	$(MAKE) LIBS='-L/usr/X11R6/lib -lX11 -lm' CFLAGS='-Wall -O2 -g' -f Makefile.std
+	automake
+	./configure --prefix=/usr/X11R6
+	$(MAKE)
 	touch build-stamp
 
 clean:
 	dh_testdir
 	rm -f build-stamp
 #	# Add here commands to clean up after the build process.
-	-$(MAKE) -f Makefile.std clean
+	-$(MAKE) clean
+#	# stuff created by ./configure
+	rm -f Makefile Makefile.in config.{cache,log,status} stamp-h
+#	# In case Makefile doesn't exist ...
+	rm -f xgraph
+	rm -f *.o core *.core
+#	# debian build cruft
 	dh_clean
 
 install: build
@@ -30,8 +36,8 @@ install: build
 	dh_clean -k
 	dh_installdirs
 #	# Add here commands to install the package into debian/tmp.
-#	#$(MAKE) install DESTDIR=`pwd`/debian/tmp
-	cp -a xgraph debian/tmp/usr/X11R6/bin/
+	$(MAKE) install DESTDIR=`pwd`/debian/tmp
+	-rm -rf debian/tmp/usr/X11R6/man/manm
 
 # Build architecture-independent files here.
 binary-indep: build install
