@@ -1,2 +1,10 @@
+.deps
+Makefile
+Makefile.in
+autoconf.h
 build-stamp
+config.cache
+config.log
+config.status
+stamp-h
 xgraph
