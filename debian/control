@@ -3,7 +3,7 @@ Section: math
 Priority: optional
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
 Standards-Version: 3.5.8
-Build-Depends: debhelper, automake, autoconf (<= 2.13-999) | autoconf2.13, xlibs-dev | xlib6g-dev
+Build-Depends: debhelper, automake, autoconf2.13 | autoconf (<= 2.13-999), xlibs-dev | xlib6g-dev
 
 Package: xgraph
 Architecture: any

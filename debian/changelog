@@ -1,3 +1,9 @@
+xgraph (12.1-2) unstable; urgency=low
+
+  * change order of operands to commutative operator (closes: #182122)
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Mon, 24 Feb 2003 01:13:21 +0000
+
 xgraph (12.1-1) unstable; urgency=low
 
   * debian build policy updates (closes: #170209)
