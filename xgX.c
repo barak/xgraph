@@ -10,6 +10,7 @@
  * for porting to other window systems.
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "copyright.h"
