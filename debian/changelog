@@ -4,6 +4,15 @@ xgraph (12.1-3) unstable; urgency=low
   * rev standards version
 
  --
+    
+xgraph (12.1-2.1) unstable; urgency=low
+
+  * NMU (Bugsquash Party)
+  * Automaticaly update config.sub/guess following autotools-dev doc
+    (closes: #204242)
+  * Bump Standards Version
+
+ -- Pierre Machard <pmachard@debian.org>  Tue,  2 Sep 2003 09:44:11 +0200
 
 xgraph (12.1-2) unstable; urgency=low
 
