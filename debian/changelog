@@ -1,9 +1,9 @@
 xgraph (11.3.2-2) unstable; urgency=low
 
   * get rid of some compiler warnings.
-  * add build dependencies
+  * add build dependencies (closes: #114717)
 
- -- Barak Pearlmutter <bap@cs.unm.edu>  Sun,  7 Oct 2001 02:03:33 -0600
+ -- Barak Pearlmutter <bap@cs.unm.edu>  Sun,  7 Oct 2001 02:21:03 -0600
 
 xgraph (11.3.2-1) unstable; urgency=low
 
