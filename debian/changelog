@@ -1,3 +1,9 @@
+xgraph (12.1-3) unstable; urgency=low
+
+  * suggest ygraph now that it's packaged
+
+ --
+
 xgraph (12.1-2) unstable; urgency=low
 
   * change order of operands to commutative operator (closes: #182122)

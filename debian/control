@@ -8,6 +8,7 @@ Build-Depends: debhelper, automake, autoconf2.13 | autoconf (<= 2.13-999), xlibs
 Package: xgraph
 Architecture: any
 Depends: ${shlibs:Depends}
+Suggests: ygraph
 Description: Plotting program, reads stdin, allows interactive zooming
  Accepts data files or stdin in a form similar to the unix program
  graph and displays line graphs, scatter plots, or bar charts on an
