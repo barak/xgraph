@@ -31,9 +31,7 @@ install: build
 	dh_installdirs
 #	# Add here commands to install the package into debian/tmp.
 #	#$(MAKE) install DESTDIR=`pwd`/debian/tmp
-	mkdir debian/tmp/bin
-	cp -a xgraph debian/tmp/bin/xgraph
-	strip debian/tmp/bin/xgraph
+	cp -a xgraph debian/tmp/usr/X11R6/bin/
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -44,14 +42,16 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 #	dh_installdebconf	
-#	dh_installdocs
+	dh_installdocs
 	dh_installexamples
 #	dh_installmenu    # no menu because it needs data from file or stdin
 #	dh_installemacsen
 #	dh_installpam
 #	dh_installinit
 #	dh_installcron
-	dh_installman xgraph.man
+#	dh_installman xgraph.man # installs in /usr/share/man/man1
+	cp xgraph.man debian/tmp/usr/X11R6/man/man1/xgraph.1
+	gzip debian/tmp/usr/X11R6/man/man1/xgraph.1
 #	dh_installinfo
 #	dh_undocumented
 	dh_installchangelogs 
