@@ -3,7 +3,7 @@ xgraph (12.1-1) unstable; urgency=low
   * debian build policy updates (closes: #170209)
   * new upstream version
 
- -- Barak A. Pearlmutter <myname@debian.org>  Fri, 21 Feb 2003 18:43:05 +0000
+ -- Barak A. Pearlmutter <bap@debian.org>  Fri, 21 Feb 2003 18:43:05 +0000
 
 xgraph (11.3.2-2) unstable; urgency=low
 
