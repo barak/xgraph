@@ -1,0 +1,5 @@
+xgraph (11.3.2-1) unstable; urgency=low
+
+  * Initial Release.  (closes: #113904)
+
+ -- Barak Pearlmutter <bap@cs.unm.edu>  Sat, 29 Sep 2001 15:06:22 -0600

@@ -1,0 +1,30 @@
+This package was debianized by Barak Pearlmutter <bap@cs.unm.edu> on
+Sat, 29 Sep 2001 15:06:22 -0600.
+
+Downloaded from ftp://ftp.cs.utoronto.ca/pub/radford/xgraph-11.tar.Z
+via the program page http://www.cs.utoronto.ca/%7Eradford/xgraph.html
+
+Upstream Authors:
+
+  Originally by David Harrison, between 1986 and 1989.  Some
+  improvements by Peter D. Gilbert <peter.gilbert@compaq.com> and
+  Radford Neal <radford@cs.toronto.edu>.  John Harrison made Cygwin
+  mods.  Upstream sources released by Radford Neal on 2000-09-10.
+  See README.FIRST for details on who made what changes.
+
+Copyright:
+
+  The source archives contain the file copyright.h, which says ...
+
+  Copyright (c) 1988, 1989, Regents of the University of California.
+  All rights reserved.
+
+  Use and copying of this software and preparation of derivative works
+  based upon this software are permitted.  However, any distribution of
+  this software or derivative works must include the above copyright
+  notice.
+
+  This software is made available AS IS, and neither the Electronics
+  Research Laboratory or the University of California make any
+  warranty about the software, its performance or its conformity to
+  any specification.
