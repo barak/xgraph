@@ -5,11 +5,9 @@
  * David Harrison
  */
 
-#include <stdlib.h>
-#include <string.h>
 #include "copyright.h"
 #include <stdio.h>
-#include "xgout.h"
+#include "xgraph.h"
 
 /*
  * Basic scaling parameters
@@ -50,6 +48,7 @@
 #define PS_NO_DSTYLE		-1
 #define PS_NO_WIDTH		-1
 #define PS_NO_LSTYLE		-1
+#define PS_NO_COLOR		-1
 
 /*
  * Working macros
@@ -59,7 +58,9 @@
 #define PS(str)		OUT(psFile, str)
 #define PSU(str)	OUT(ui->psFile, str)
 #define IY(val)		(ui->height_devs - val)
-#define MAX(a, b)	((a) > (b) ? (a) : (b))
+
+#define TEXTCOLOR	0
+#define MAXCOLOR	8	/* Number of gray scales supported */
 
 /*
  * Globals
@@ -72,49 +73,58 @@ static double PS_scale;		/* devs/micron */
  */
 
 static void psScale(), psFonts(), psMarks(), psText(), psSeg(), psDot(), psEnd();
-
 
+
 /*
  * Local structures
  */
 
 struct userInfo {
-    FILE *psFile;
-    int currentTextStyle;
-    int currentDashStyle;
-    int currentWidth;
-    int currentLStyle;
-    int baseWidth;
-    int height_devs;
-    char *title_family;
-    double title_size;
-    char *axis_family;
-    double axis_size;
-    int flags;
+    FILE   *psFile;
+    int     currentTextStyle;
+    int     currentDashStyle;
+    int     currentWidth;
+    int     currentLStyle;
+    int     currentColor;
+    int     baseWidth;
+    int     height_devs;
+    char   *title_family;
+    double  title_size;
+    char   *axis_family;
+    double  axis_size;
+    int     flags;
 };
-
 
 
-int rd(dbl)
-double dbl;
+
+int 
+rd(dbl)
+double  dbl;
+
 /* Short and sweet rounding function */
 {
     if (dbl < 0.0) {
 	return ((int) (dbl - 0.5));
-    } else {
+    }
+    else {
 	return ((int) (dbl + 0.5));
     }
 }
 
 /*ARGSUSED*/
-int psInit(psFile, width, height, tf, ts, af, as, flags, outInfo, errmsg)
-FILE *psFile;			/* Output file            */
-int width, height;		/* In microns             */
-char *tf, *af;			/* Title and axis font    */
-double ts, as;			/* Title and axis size    */
-int flags;			/* Predicate flags        */
-xgOut *outInfo;			/* Returned device info   */
-char errmsg[ERRBUFSIZE];	/* Returned error message */
+int 
+psInit(psFile, width, height, tf, ts, af, as, flags, outInfo, errmsg)
+FILE   *psFile;			/* Output file            */
+int     width,
+        height;			/* In microns             */
+char   *tf,
+       *af;			/* Title and axis font    */
+double  ts,
+        as;			/* Title and axis size    */
+int     flags;			/* Predicate flags        */
+xgOut  *outInfo;		/* Returned device info   */
+char    errmsg[ERRBUFSIZE];	/* Returned error message */
+
 /*
  * The basic coordinate system is points (roughly 1/72 inch).
  * However,  most laser printers can do much better than that.
@@ -126,40 +136,41 @@ char errmsg[ERRBUFSIZE];	/* Returned error message */
  */
 {
     struct userInfo *ui;
-    double font_size;
+    double  font_size;
 
-    ui = (struct userInfo *) malloc(sizeof(struct userInfo));
+    ui = (struct userInfo *) Malloc(sizeof(struct userInfo));
     ui->psFile = psFile;
     ui->currentTextStyle = PS_NO_TSTYLE;
     ui->currentDashStyle = PS_NO_DSTYLE;
     ui->currentWidth = PS_NO_WIDTH;
     ui->currentLStyle = PS_NO_LSTYLE;
+    ui->currentColor = PS_NO_COLOR;
     ui->title_family = tf;
     ui->title_size = ts;
     ui->axis_family = af;
     ui->axis_size = as;
     /* Roughly,  one-eighth a point in devs */
-    ui->baseWidth = rd( VDPI / POINTS_PER_INCH * BASE_WIDTH );
+    ui->baseWidth = rd(VDPI / POINTS_PER_INCH * BASE_WIDTH);
     ui->flags = flags;
 
     PS_scale = VDPI / MICRONS_PER_INCH;
 
     outInfo->dev_flags = 0;
-    outInfo->area_w = rd( ((double) width) * PS_scale );
-    outInfo->area_h = rd( ((double) height) * PS_scale );
+    outInfo->area_w = rd(((double) width) * PS_scale);
+    outInfo->area_h = rd(((double) height) * PS_scale);
     ui->height_devs = outInfo->area_h;
-    outInfo->bdr_pad = rd( PS_BDR_PAD * VDPI );
-    outInfo->axis_pad = rd( PS_AXIS_PAD * VDPI );
-    outInfo->legend_pad = rd( PS_LEG_PAD * VDPI );
-    outInfo->tick_len = rd( PS_TICK_LEN * VDPI );
+    outInfo->bdr_pad = rd(PS_BDR_PAD * VDPI);
+    outInfo->axis_pad = rd(PS_AXIS_PAD * VDPI);
+    outInfo->legend_pad = rd(PS_LEG_PAD * VDPI);
+    outInfo->tick_len = rd(PS_TICK_LEN * VDPI);
 
     /* Font estimates */
     font_size = as * INCHES_PER_POINT * VDPI;
-    outInfo->axis_height = rd( font_size );
-    outInfo->axis_width = rd( font_size * FONT_WIDTH_EST );
+    outInfo->axis_height = rd(font_size);
+    outInfo->axis_width = rd(font_size * FONT_WIDTH_EST);
     font_size = ts * INCHES_PER_POINT * VDPI;
-    outInfo->title_height = rd( font_size );
-    outInfo->title_width = rd( font_size * FONT_WIDTH_EST );
+    outInfo->title_height = rd(font_size);
+    outInfo->title_width = rd(font_size * FONT_WIDTH_EST);
 
     outInfo->max_segs = PS_MAX_SEGS;
 
@@ -180,13 +191,15 @@ char errmsg[ERRBUFSIZE];	/* Returned error message */
     PS("%%\n%% Main body begins here\n%%\n");
     return 1;
 }
-
-
 
 
-static void psHeader(psFile, docu_flag)
-FILE *psFile;
-int docu_flag;
+
+
+static void 
+psHeader(psFile, docu_flag)
+FILE   *psFile;
+int     docu_flag;
+
 /*
  * Prints out a standard greeting to the Postscript file.
  */
@@ -203,13 +216,15 @@ int docu_flag;
     }
     PS("%%\n");
 }
-
 
-static void psScale(psFile, width, height, flags)
-FILE *psFile;			/* Output stream */
-int width;			/* Output width  */
-int height;			/* Output height */
-int flags;			/* Output options */
+
+static void 
+psScale(psFile, width, height, flags)
+FILE   *psFile;			/* Output stream */
+int     width;			/* Output width  */
+int     height;			/* Output height */
+int     flags;			/* Output options */
+
 /*
  * This routine figures out how transform the basic postscript
  * transformation into one suitable for direct use by
@@ -220,20 +235,22 @@ int flags;			/* Output options */
  * be displayed.
  */
 {
-    double factor;
-    double pnt_width, pnt_height;
+    double  factor;
+    double  pnt_width,
+            pnt_height;
 
     if (flags & D_DOCU) {
 	OUT(psFile, "%%%%BoundingBox: %ld %ld %ld %ld\n",
 	    0, 0,
 	    (int) (((double) width) /
-		   (MICRONS_PER_INCH * INCHES_PER_POINT)+0.5),
+		   (MICRONS_PER_INCH * INCHES_PER_POINT) + 0.5),
 	    (int) (((double) height) /
-		   (MICRONS_PER_INCH * INCHES_PER_POINT)+0.5)
+		   (MICRONS_PER_INCH * INCHES_PER_POINT) + 0.5)
 	    );
 	psHeader(psFile, 1);
 	PS("%% Rotation and centering are turned off for inclusion in a document\n");
-    } else {
+    }
+    else {
 	psHeader(psFile, 0);
 	PS("%% Scaling information\n");
 	PS("%%\n");
@@ -252,8 +269,8 @@ int flags;			/* Output options */
 	PS("pop pop\n");
 
 	/*
-	 * First: rotation.  If the width is greater than the short
-	 * dimension,  do the rotation.
+	 * First: rotation.  If the width is greater than the short dimension,
+	 * do the rotation.
 	 */
 	pnt_width = ((double) width) / MICRONS_PER_INCH * POINTS_PER_INCH;
 	pnt_height = ((double) height) / MICRONS_PER_INCH * POINTS_PER_INCH;
@@ -296,11 +313,13 @@ int flags;			/* Output options */
     PS("%% Set the scale\n");
     OUT(psFile, "%lg %lg scale\n", factor, factor);
 }
-
 
 
-static void psFonts(psFile)
-FILE *psFile;			/* Output stream                */
+
+static void 
+psFonts(psFile)
+FILE   *psFile;			/* Output stream                */
+
 /*
  * Downloads code for drawing title and axis labels
  */
@@ -373,11 +392,13 @@ FILE *psFile;			/* Output stream                */
     PS("} def\n");
     PS("%%\n");
 }
-
 
 
-static void psMarks(psFile)
-FILE *psFile;
+
+static void 
+psMarks(psFile)
+FILE   *psFile;
+
 /*
  * Writes out marker definitions
  */
@@ -387,12 +408,12 @@ FILE *psFile;
     PS("newpath x size sub y size sub moveto\n");
     PS("size size add 0 rlineto 0 size size add rlineto\n");
     PS("0 size size add sub 0 rlineto closepath fill} def\n");
-    
+
     PS("/mark1 {/size exch def /y exch def /x exch def\n");
     PS("newpath x size sub y size sub moveto\n");
     PS("size size add 0 rlineto 0 size size add rlineto\n");
     PS("0 size size add sub 0 rlineto closepath stroke} def\n");
-    
+
     PS("/mark2 {/size exch def /y exch def /x exch def\n");
     PS("newpath x y moveto x y size 0 360 arc stroke} def\n");
 
@@ -404,11 +425,11 @@ FILE *psFile;
     PS("newpath x size sub y moveto x y size add lineto\n");
     PS("x size add y lineto x y size sub lineto\n");
     PS("closepath stroke} def\n");
-    
+
     PS("/mark5 {/size exch def /y exch def /x exch def\n");
     PS("x y size mark1\n");
     PS("newpath x size sub y moveto size size add 0 rlineto stroke} def\n");
-    
+
     PS("/mark6 {/size exch def /y exch def /x exch def\n");
     PS("newpath x y moveto x y size 0 360 arc fill} def\n");
 
@@ -418,21 +439,29 @@ FILE *psFile;
     PS("newpath x y moveto x size add y size add lineto\n");
     PS("x size sub y size add lineto closepath fill} def\n");
 }
-
 
 
-static void psText(state, x, y, text, just, style)
-char *state;			/* Really (struct userInfo *) */
-int x, y;			/* Text position (devs)       */
-char *text;			/* Text itself                */
-int just;			/* Justification              */
-int style;			/* Style                      */
+
+static void 
+psText(state, x, y, text, just, style)
+char   *state;			/* Really (struct userInfo *) */
+int     x,
+        y;			/* Text position (devs)       */
+char   *text;			/* Text itself                */
+int     just;			/* Justification              */
+int     style;			/* Style                      */
+
 /*
  * Draws text at the given location with the given justification
  * and style.
  */
 {
     struct userInfo *ui = (struct userInfo *) state;
+
+    if (TEXTCOLOR != ui->currentColor) {
+	OUT(ui->psFile, "%lg setgray\n", (double) TEXTCOLOR / 8);
+	ui->currentColor = TEXTCOLOR;
+    }
 
     if (style != ui->currentTextStyle) {
 	switch (style) {
@@ -449,18 +478,20 @@ int style;			/* Style                      */
     }
     OUT(ui->psFile, "(%s) %d %d %d just-string\n", text, x, IY(y), just);
 }
-
 
 
+
 /*ARGSUSED*/
-static void psSeg(state, ns, seglist, width, style, lappr, color)
-char *state;			/* Really (struct userInfo *) */
-int ns;				/* Number of segments         */
+static void 
+psSeg(state, ns, seglist, width, style, lappr, color)
+char   *state;			/* Really (struct userInfo *) */
+int     ns;			/* Number of segments         */
 XSegment *seglist;		/* X array of segments        */
-int width;			/* Width of lines (devcoords) */
-int style;			/* L_AXIS, L_ZERO, L_VAR      */
-int lappr;			/* Zero to seven              */
-int color;			/* Zero to seven              */
+int     width;			/* Width of lines (devcoords) */
+int     style;			/* L_AXIS, L_ZERO, L_VAR      */
+int     lappr;			/* Zero to seven              */
+int     color;			/* Zero to seven              */
+
 /*
  * Draws a number of line segments.  Grid lines are drawn using
  * light lines.  Variable lines (L_VAR) are drawn wider.  This
@@ -468,7 +499,8 @@ int color;			/* Zero to seven              */
  */
 {
     struct userInfo *ui = (struct userInfo *) state;
-    int newwidth, i;
+    int     newwidth = 0,
+            i;
 
     if ((style != ui->currentLStyle) || (width != ui->currentWidth)) {
 	switch (style) {
@@ -488,37 +520,54 @@ int color;			/* Zero to seven              */
 	ui->currentLStyle = style;
 	OUT(ui->psFile, "%d setlinewidth\n", ui->currentWidth);
     }
+    if (width > 4) {
+	if (color > MAXCOLOR)
+	    color -= MAXCOLOR;
+	else
+	    lappr = 0;
+    }
+    else
+	color = TEXTCOLOR;
+
     if ((lappr != ui->currentDashStyle) && (style == L_VAR)) {
 	if (lappr == 0) {
 	    PSU("[] 0 setdash\n");
-	} else {
+	}
+	else {
 	    OUT(ui->psFile, "[%lg] 0 setdash\n",
 		((double) lappr) * BASE_DASH * VDPI);
 	}
 	ui->currentDashStyle = lappr;
     }
+    if ((color != ui->currentColor) && (style == L_VAR)) {
+	OUT(ui->psFile, "%lg setgray\n", (double) color / MAXCOLOR);
+	ui->currentColor = color;
+    }
     PSU("newpath\n");
     OUT(ui->psFile, "  %d %d moveto\n", seglist[0].x1, IY(seglist[0].y1));
     OUT(ui->psFile, "  %d %d lineto\n", seglist[0].x2, IY(seglist[0].y2));
-    for (i = 1;  i < ns;  i++) {
-	if ((seglist[i].x1 != seglist[i-1].x2) ||
-	    (seglist[i].y1 != seglist[i-1].y2)) {
+    for (i = 1; i < ns; i++) {
+	if ((seglist[i].x1 != seglist[i - 1].x2) ||
+	    (seglist[i].y1 != seglist[i - 1].y2)) {
 	    OUT(ui->psFile, "  %d %d moveto\n", seglist[i].x1, IY(seglist[i].y1));
 	}
 	OUT(ui->psFile, "  %d %d lineto\n", seglist[i].x2, IY(seglist[i].y2));
     }
     PSU("stroke\n");
 }
-
 
 
+
 /*ARGSUSED*/
-static void psDot(state, x, y, style, type, color)
-char *state;    	/* state information */
-int x,y;    		/* coord of dot */
-int style;  		/* type of dot */
-int type;   		/* dot style variation */
-int color;  		/* color of dot */
+static void 
+psDot(state, x, y, style, type, color)
+char   *state;			/* state information */
+int     x,
+        y;			/* coord of dot */
+int     style;			/* type of dot */
+int     type;			/* dot style variation */
+int     color;			/* color of dot */
+
 /*
  * Prints out a dot at the given location
  */
@@ -533,7 +582,13 @@ int color;  		/* color of dot */
 	ui->currentWidth = PS_ZERO_WBASE * ui->baseWidth;
 	OUT(ui->psFile, "%d setlinewidth ", ui->currentWidth);
     }
-    
+    if (color > MAXCOLOR)
+	color -= MAXCOLOR;
+    if ((color != ui->currentColor)) {
+	OUT(ui->psFile, "%lg setgray\n", (double) color / MAXCOLOR);
+	ui->currentColor = color;
+    }
+
     switch (style) {
     case P_PIXEL:
 	OUT(ui->psFile, "newpath %d %d moveto %d %d %d 0 360 arc fill\n",
@@ -552,8 +607,9 @@ int color;  		/* color of dot */
 }
 
 
-static void psEnd(userState)
-char *userState;    /* state information */
+static void 
+psEnd(userState)
+char   *userState;		/* state information */
 {
     struct userInfo *ui = (struct userInfo *) userState;
 

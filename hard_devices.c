@@ -1,12 +1,24 @@
+/* $Header$ */
 /*
  * Hardcopy Devices
  *
  * This file contains the basic output device table.  The hardcopy
  * dialog is automatically constructed from this table.
+ *
+ * $Log$
+ * Revision 1.1.1.2  2001-10-08 05:53:06  bap
+ * Imported upstream version 12.1.
+ *
+ * Revision 1.1.1.1  1999/12/03 23:15:52  heideman
+ * xgraph-12.0
+ *
  */
+#ifndef lint
+static char rcsid[] = "$Id$";
 
-#include <stdlib.h>
-#include <string.h>
+#endif
+
+#include <stdio.h>
 #include "copyright.h"
 #include "xgout.h"
 #include "hard_devices.h"
@@ -15,19 +27,25 @@
 extern int hpglInit();
 extern int psInit();
 extern int idrawInit();
+extern int tgifInit();
 
-struct hard_dev hard_devices[] = {
-    { "Postscript", psInit, "lpr -P%s", "xgraph.ps", "lp",
-	19.0, "Times-Bold", 18.0, "Times-Roman", 12.0, NO },
-    { "HPGL", hpglInit, "lpr -P%s", "xgraph.hpgl", "paper",
-	27.5, "1", 14.0, "1", 12.0, NONE },
-    { "Idraw", idrawInit,
-	"cat > /usr/tmp/idraw.tmp.ps; %s /usr/tmp/idraw.tmp.ps&",
-	"~/.clipboard", "/usr/local/idraw", 19.0, "Times-Bold", 18.0,
-	"Times-Roman", 12.0, NONE }
+struct hard_dev hard_devices[] =
+{
+    {"HPGL", hpglInit, "lpr -P%s", "xgraph.hpgl", "paper",
+     27.5, "1", 14.0, "1", 12.0, NONE},
+    {"Postscript", psInit, "lpr -P%s", "xgraph.ps", "$PRINTER",
+     19.0, "Times-Bold", 18.0, "Times-Roman", 12.0, NO},
+    {"Idraw", idrawInit,
+     "cat > /usr/tmp/idraw.tmp.ps; %s /usr/tmp/idraw.tmp.ps&",
+     "~/.clipboard", "/usr/bin/X11/idraw", 19.0, "Times-Bold", 18.0,
+     "Times-Roman", 12.0, NONE},
+    {"Tgif", tgifInit,
+     "cat > /usr/tmp/xgraph.obj; %s /usr/tmp/xgraph &",
+     "xgraph.obj", "/usr/bin/X11/tgif", 19.0, "Times-Bold", 18.0,
+     "Times-Roman", 12.0, NONE}
 };
 
-int hard_count = sizeof(hard_devices)/sizeof(struct hard_dev);
+int     hard_count = sizeof(hard_devices) / sizeof(struct hard_dev);
 
 #define CHANGE_D(name, field) \
 if (param_get(name, &val)) { \
@@ -44,26 +62,35 @@ if (param_get(name, &val)) { \
 }
 
 
-void hard_init()
+void 
+hard_init()
 /*
  * Changes values in hard_devices structures in accordance with
  * parameters set using the parameters module.
  */
 {
-    char newname[1024];
-    int idx;
-    params val;
+    char    nn[BUFSIZ];
+    int     idx;
+    params  val;
 
-    for (idx = 0;  idx < hard_count;  idx++) {
-	(void) sprintf(newname, "%s.Dimension", hard_devices[idx].dev_name);
-	CHANGE_D(newname, dev_max_dim);
-	(void) sprintf(newname, "%s.OutputTitleFont", hard_devices[idx].dev_name);
-	CHANGE_S(newname, dev_title_font);
-	(void) sprintf(newname, "%s.OutputTitleSize", hard_devices[idx].dev_name);
-	CHANGE_D(newname, dev_title_size);
-	(void) sprintf(newname, "%s.OutputAxisFont", hard_devices[idx].dev_name);
-	CHANGE_S(newname, dev_axis_font);
-	(void) sprintf(newname, "%s.OutputAxisSize", hard_devices[idx].dev_name);
-	CHANGE_D(newname, dev_axis_size);
+    for (idx = 0; idx < hard_count; idx++) {
+	(void) sprintf(nn, "%s.Dimension", hard_devices[idx].dev_name);
+	CHANGE_D(nn, dev_max_dim);
+	(void) sprintf(nn, "%s.OutputTitleFont", hard_devices[idx].dev_name);
+	CHANGE_S(nn, dev_title_font);
+	(void) sprintf(nn, "%s.OutputTitleSize", hard_devices[idx].dev_name);
+	CHANGE_D(nn, dev_title_size);
+	(void) sprintf(nn, "%s.OutputAxisFont", hard_devices[idx].dev_name);
+	CHANGE_S(nn, dev_axis_font);
+	(void) sprintf(nn, "%s.OutputAxisSize", hard_devices[idx].dev_name);
+	CHANGE_D(nn, dev_axis_size);
+	if (hard_devices[idx].dev_printer[0] == '$') {
+	    extern char *getenv();
+	    char *ptr;
+	    if ((ptr = getenv(&hard_devices[idx].dev_printer[1]))) {
+		(void) strncpy(hard_devices[idx].dev_printer, ptr, MFNAME - 1);
+		hard_devices[idx].dev_printer[MFNAME - 1] = '\0';
+	    }
+	}
     }
 }

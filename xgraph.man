@@ -3,7 +3,7 @@
 xgraph \- Draw a graph on an X11 Display
 .SH SYNOPSIS
 .B xgraph
-[ options ] [ =WxH+X+Y ] [ -display host:display.screen ] [ file ... ]
+[ options ] [[-geometry |=]WxH+X+Y ] [ -display host:display.screen ] [ file ... ]
 .SH DESCRIPTION
 The 
 .I xgraph
@@ -173,8 +173,9 @@ one specified below.
 Option specifications in the data file are similar to the X defaults file
 specification except the program name is omitted.
 .TP
-.B  \=WxH+X+Y (Geometry)
+.B  \-geometry WxH+X+Y or \=WxH+X+Y (Geometry)
 Specifies the initial size and location of the xgraph window.
+.TP
 .B  \-<digit> <name>
 These options specify the data set name for the corresponding data set.
 The digit should be in the range '0' to '63'.
@@ -185,6 +186,38 @@ Specifies that vertical bars should be drawn from the data points to
 a base point which can be specified with -brb.  Usually,  the -nl
 flag is used with this option.  The point itself is located at
 the center of the bar.
+.TP
+.B  \-bof (BarGraph)
+Offset the bars for additional datasets by the specified amount.
+.TP 
+.B  \-device <name>
+Set the output device for xgraph. The default is 'X'; other valid
+devices are 'ps', 'hpgl', 'idraw' and tgif.
+.TP
+.B  \-o <filename> \-O <filename>
+Set the output file name for postscript, hpgl and idraw devices.
+Files created with -O can be used other documents, and files generated
+with -o can be printed directly.
+.TP
+.B  \-P<printername>
+Set the printer name for postscript or hpgl devices. This and the -o or -O
+option are mutually exclusive.
+.TP 
+.B \-stk
+Stack elements coming from different datasets, instead of plotting them
+from the same baseline. Datasets must match exactly.
+.TP 
+.B \-fitx
+Translate and scale the x data from all datasets to fit [0..1].
+.B \-fity
+Translate and scale the y data from all datasets to fit [0..1].
+.TP
+.B \-scale <factor>
+Output scale factor for postscript, hpgl and idraw devices. The default
+is 1.0, and 0.5 will generate a 50% reduced plot.
+.TP
+.B \-fmtx <printf-format> \-fmty <printf-format>
+Use the format specified to generate the legents for the x or y axis.
 .TP
 .B  \-bb (BoundBox)
 Draw a bounding box around the data region.  This is very useful
@@ -266,6 +299,9 @@ Turn off drawing lines.  When used with -m, -M, -p, or -P this can be used to
 produce scatter plots.  When used with -bar,  it can be used to
 produce standard bar graphs.
 .TP
+.B  \-ng (NoLegend)
+Turn off drawing Legends. Can be used to increase the drawing area.
+.TP
 .B  \-p (PixelMarkers)
 Marks each data point with a small marker (pixel sized).  This is
 usually used with the -nl option for scatter plots.
@@ -293,6 +329,9 @@ This option causes
 .I xgraph
 to draw tick marks rather than full grid lines.  The -bb option
 is also useful when viewing graphs with tick marks only.
+.TP
+.B  \-tkax (Tick Axis)
+When tick marks are enabled, plot the axes.
 .TP
 .B  \-x <unitname> (XUnitText)
 This is the unit name for the X axis.  Its default is "X".

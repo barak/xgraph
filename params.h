@@ -15,44 +15,44 @@
 #endif
 
 typedef enum param_types_defn {
-    INT, STR, PIXEL, FONT, STYLE, BOOL, DBL 
-} param_types;
+    INT, STR, PIXEL, FONT, STYLE, BOOL, DBL
+}       param_types;
 
 typedef struct params_int_defn {
     param_types type;		/* INT */
-    int value;
-} param_int;
+    int     value;
+}       param_int;
 
 typedef struct params_str_defn {
     param_types type;		/* STR */
-    char *value;
-} param_str;
+    char   *value;
+}       param_str;
 
 typedef struct params_pix_defn {
     param_types type;		/* PIXEL */
-    XColor value;
-} param_pix;
+    XColor  value;
+}       param_pix;
 
 typedef struct params_font_defn {
     param_types type;		/* FONT */
     XFontStruct *value;
-} param_font;
+}       param_font;
 
 typedef struct params_style_defn {
     param_types type;		/* STYLE */
-    int len;
-    char *dash_list;
-} param_style;
+    int     len;
+    char   *dash_list;
+}       param_style;
 
 typedef struct params_bool_defn {
     param_types type;		/* BOOL */
-    int value;
-} param_bool;
+    int     value;
+}       param_bool;
 
 typedef struct params_dbl_defn {
     param_types type;		/* DBL */
-    double value;
-} param_dbl;
+    double  value;
+}       param_dbl;
 
 typedef union params_defn {
     param_types type;
@@ -63,21 +63,23 @@ typedef union params_defn {
     param_style stylev;		/* STYLE */
     param_bool boolv;		/* BOOL */
     param_dbl dblv;		/* DBL */
-} params;
+}       params;
 
-DECLARE(param_init, void, (Display *disp, Colormap cmap));
+DECLARE(param_init, void, (Display * disp, Colormap cmap));
 DECLARE(param_set, void, (char *name, param_types type, char *val));
 DECLARE(param_reset, void, (char *name, char *val));
-DECLARE(param_get, params *, (char *name, params *val));
+DECLARE(param_get, params *, (char *name, params * val));
 DECLARE(param_dump, void, ());
 
-#ifndef __CYGWIN__
-DECLARE(stricmp, int, (char *a, char *b));
+#ifdef stricmp
+#undef stricmp
 #endif
+DECLARE(stricmp, int, (char *a, char *b));
 
 /* Some convenience macros */
 
-extern params param_temp, *param_temp_ptr;
+extern params param_temp,
+       *param_temp_ptr;
 extern XColor param_null_color;
 extern param_style param_null_style;
 
@@ -122,4 +124,4 @@ extern param_style param_null_style;
  (abort(), 0.0))
 
 
-#endif /* _PARAMS_H_ */
+#endif				/* _PARAMS_H_ */
