@@ -8,8 +8,8 @@
  *	ReadDefaults();
  *
  * $Log$
- * Revision 1.1  2001-10-08 05:53:13  bap
- * Initial revision
+ * Revision 1.2  2001-10-08 08:33:31  bap
+ * flush some warnings
  *
  * Revision 1.2  1999/12/19 00:52:06  heideman
  * warning suppresion, slightly different flot ahndling
@@ -254,8 +254,8 @@ int     o;
 static char *def_str;
 
 #define DEF(name, type) \
-if (def_str = XGetDefault(disp, Prog_Name, name)) { \
-    param_set(name, type, def_str); \
+if ((def_str = XGetDefault(disp, Prog_Name, (name)))) { \
+    param_set((name), (type), def_str); \
 }
 
 void
@@ -451,7 +451,7 @@ int     do_it;
 		    if (idx + 1 >= argc)
 			argerror("missing coordinate(s)",
 				 argv[idx]);
-		    if (hi = index(argv[idx + 1], ',')) {
+		    if ((hi = index(argv[idx + 1], ','))) {
 			char    low[MAXLO];
 
 			(void) strncpy(low, argv[idx + 1], hi - argv[idx + 1]);
@@ -474,7 +474,7 @@ int     do_it;
 		    if (idx + 1 >= argc)
 			argerror("missing coordinate(s)",
 				 argv[idx]);
-		    if (hi = index(argv[idx + 1], ',')) {
+		    if ((hi = index(argv[idx + 1], ','))) {
 			char    low[MAXLO];
 
 			(void) strncpy(low, argv[idx + 1], hi - argv[idx + 1]);

@@ -12,9 +12,11 @@
  * want to use any of the standards yet -- they are too unstable).
  */
 
+#include <stdio.h>
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xresource.h>
 #include <string.h>  /* for strcpy */
 #include "xtb.h"
 

@@ -6,8 +6,8 @@
  * various X style display parameters for xgraph.
  *
  * $Log$
- * Revision 1.3  2001-10-08 07:39:40  bap
- * cvs update -jdebian_version_XXX -jupstream_version_12_1
+ * Revision 1.4  2001-10-08 08:33:31  bap
+ * flush some warnings
  *
  * Revision 1.2  1999/12/08 19:32:41  heideman
  * strcasecmp portability fix
@@ -345,7 +345,7 @@ XFontStruct **font_info;	/* Returned font information */
     /* First attempt to interpret as font family/size */
     if (PM_INT("Output Device") == D_XWINDOWS) {
 	(void) strcpy(name_copy, name);
-	if (font_size = index(name_copy, '-')) {
+	if ((font_size = index(name_copy, '-'))) {
 	    *font_size = '\0';
 	    font_family = name_copy;
 	    font_size++;
@@ -361,7 +361,7 @@ XFontStruct **font_info;	/* Returned font information */
 
 		/* Load first one that you can */
 		for (i = 0; i < font_count; i++)
-		    if (*font_info = XLoadQueryFont(param_disp, font_list[i]))
+		  if ((*font_info = XLoadQueryFont(param_disp, font_list[i])))
 			break;
 		if (*font_info)
 		    return 1;
