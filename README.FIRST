@@ -1,0 +1,115 @@
+XGRAPH-11 plotting program
+
+Written by David Harrison (1989)
+
+Modified by Isaac Wong, 
+            Peter D. Gilbert (1999,2000), 
+            Radford M. Neal (2000),
+            John Huddleston (2000)
+
+Packaged by Radford M. Neal (radford@cs.toronto.edu), 2000-09-10.
+Available from http://www.cs.toronto.edu/~radford/xgraph.html
+
+
+This is the source for the "xgraph" plotting utility for X11, written
+by David Harrison.  Even though this program is rather old by now, I
+find it very useful, and know of no good substitute.  It is now rather
+hard to find the source for this program, however.  I am therefore
+distributing it myself, as permitted by the copyright notice, which
+is as follows (from copyright.h):
+
+   David Harrison
+   University of California, Berkeley
+   1989
+ 
+   Copyright (c) 1988, 1989, Regents of the University of California.
+   All rights reserved.
+ 
+   Use and copying of this software and preparation of derivative works
+   based upon this software are permitted.  However, any distribution of
+   this software or derivative works must include the above copyright
+   notice.
+ 
+   This software is made available AS IS, and neither the Electronics
+   Research Laboratory or the University of California make any
+   warranty about the software, its performance or its conformity to
+   any specification.
+
+I got this source primarily by following the following index entry at
+http://www.yggdrasil.com/bible/LSM/lsm1076.html, though the link from
+there seems no longer to work:
+
+  xgraph 
+  
+  Version: 
+    11.3.2 December 1989 
+  Description: 
+    2D Function plotter for X11 with hardcopy output and idraw insert support.
+    Includes binary, patches and source. 
+  Keywords: 
+    graph plot X11 
+  Author: 
+    davidh@ic.Berkeley.EDU (davidh@ic.Berkeley.EDU (author), wongi@netcom.com
+    (Linux port)) 
+  Maintained-by: 
+    davidh@ic.Berkeley.EDU 
+  Primary-site: 
+    tsx-11.mit.edu /pub/linux/sources/usr.bin 219441 xgraph.tar.Z 
+  Copying-policy: 
+    Copyright by author, freely redistributable with attribution 
+  
+  Contents :
+       README.linux        this file
+       xgraph.orig.tar     the original xgraph tar file
+       xgraph.patch        patch file
+       xgraph              Linux binary
+
+I have also incorporated some improvements made by Peter D Gilbert of
+Compaq (Peter.Gilbert@compaq.com).  Namely:
+
+   1. If given, use the filename (instead of the executable name) 
+      in the title bar.
+
+   2. Use more digits as necessary to distinguish grid lines when 
+      zooming in.
+
+   3. Fix a bug in the handling of single points.
+
+   4. Get rid of the message "unknown event: 12".
+
+   5. Web-safe colours (see below).
+
+I also cleaned up the source a bit myself, and changed the program so
+that it will pay attention to the =WxH+X+Y geometry specification (as
+documented previously, but not implemented).  I also made secondary
+windows appear slightly offset from the primary window, and made the
+default title be blank.  John Harrison made some slight mods to get
+it to work with Cygwin.
+
+Finally, there are now four options for what the default colors should
+be.  I prefer ones that are less garish than the originals, and this
+is what you'll get if you don't do anything to change the default.
+Peter D Gilbert prefers more garish ones, and has also investigated
+making colors "web-safe" - ie, set so as to co-exist with netscape,
+which tends to hog colors, making using colors that it uses desirable.
+To select the default you prefer, follow the directions for changing
+the definition of USE_NEW_COLORS near the front of xgraph.c.
+
+I'm not an expert on X-windows program installation, but it appears
+that the easiest way to install the program is as follows:
+
+    xmkmf
+    make
+    cp xgraph <wherever-you-want-it>
+    cp xgraph.man <wherever-it-goes>
+
+Note that there may be some warnings relating to incompatible pointer
+types.  These should not result in problems on machines where all
+pointers are the same size as an int.
+
+Three original README files that still seem relevant are present in
+the main directory.  Two old README files that seem to no longer be
+relevant are in the old-readme-files directory.
+
+The main documentation is the man page, in xgraph.man.  A version
+converted to text (for those allergic to nroff) is in xgraph.man.text.
