@@ -1,6 +1,7 @@
 xgraph (12.1-3) unstable; urgency=low
 
   * suggest ygraph now that it's packaged
+  * rev standards version
 
  --
 
