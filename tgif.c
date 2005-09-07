@@ -8,6 +8,7 @@
 #include <X11/Xlib.h>
 #include "hard_devices.h"
 #include "xgout.h"
+#include "xgraph.h"
 
 #define COLOR	"DarkSlateGray"
 

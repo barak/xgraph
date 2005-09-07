@@ -6,53 +6,53 @@
  * David Harrison
  */
 
-#include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 #include <X11/Xlib.h>
 #include "hard_devices.h"
 #include "xgout.h"
+#include "xgraph.h"
 
 #define HEIGHT	792
 #define FIX(X)	X = HEIGHT - X;
 
 typedef struct {
-	char	*title_font;
-	char	*axis_font;
-	int	title_size;
-	int	axis_size;
-	FILE	*strm;
-	} Info;
+    char   *title_font;
+    char   *axis_font;
+    int     title_size;
+    int     axis_size;
+    FILE   *strm;
+}       Info;
 
-char	*idraw_prologue[ ] = {
-	"%I Idraw 4",
-	"Begin",
-	"%I b u",
-	"%I cfg u",
-	"%I cbg u",
-	"%I f u",
-	"%I p u",
-	"%I t",
-	"[ 1 0 0 1 0 0 ] concat",
-	"/originalCTM matrix currentmatrix def",
-	0
-	};
+char   *idraw_prologue[] =
+{
+    "%I Idraw 4",
+    "Begin",
+    "%I b u",
+    "%I cfg u",
+    "%I cbg u",
+    "%I f u",
+    "%I p u",
+    "%I t",
+    "[ 1 0 0 1 0 0 ] concat",
+    "/originalCTM matrix currentmatrix def",
+    0
+};
 
 /*
  * Hardcopy Interface for Xgraph
  *
  * Major differences from first version:
  *   Four new parameters are passed to the device initialization routine:
- *   title_family, title_size, axis_family, and axis_size.  See the 
+ *   title_family, title_size, axis_family, and axis_size.  See the
  *   description of xg_init() for details.
- *   
+ *
  *   Clipping is done automatically by xgraph.  The xg_clip() routine
  *   is obsolete.
  *
  *   The xg_line() routine has become the xg_seg() routine.  It now
- *   draws segments rather than a series of lines.  
- * 
- *   A new field (max_segs) in the device structure now specifies 
+ *   draws segments rather than a series of lines.
+ *
+ *   A new field (max_segs) in the device structure now specifies
  *   the maximum number of segments the device can handle in a group.
  */
 
@@ -73,22 +73,25 @@ char	*idraw_prologue[ ] = {
  */
 
 
-void idrawText( );
-void idrawDot( );
-void idrawSeg( );
-void idrawEnd( );
+void    idrawText();
+void    idrawDot();
+void    idrawSeg();
+void    idrawEnd();
 
-int idrawInit(strm, width, height, title_family, title_size,
-            axis_family, axis_size, flags, out_info, errmsg)
-	FILE *strm;			/* Output stream              */
-	int width, height;		/* Size of space (microns)    */
-	char *title_family;		/* Name of title font family  */
-	double title_size;		/* Title font height (points) */
-	char *axis_family;		/* Name of axis font family   */
-	double axis_size;		/* Axis font height (points)  */
-	int flags;		        /* Flags                      */
-	xgOut *out_info;		/* Device info (RETURN)       */
-	char errmsg[ERRBUFSIZE];	/* Error message area         */
+int 
+idrawInit(strm, width, height, title_family, title_size,
+	  axis_family, axis_size, flags, out_info, errmsg)
+FILE   *strm;			/* Output stream              */
+int     width,
+        height;			/* Size of space (microns)    */
+char   *title_family;		/* Name of title font family  */
+double  title_size;		/* Title font height (points) */
+char   *axis_family;		/* Name of axis font family   */
+double  axis_size;		/* Axis font height (points)  */
+int     flags;			/* Flags                      */
+xgOut  *out_info;		/* Device info (RETURN)       */
+char    errmsg[ERRBUFSIZE];	/* Error message area         */
+
 /*
  * This routine is called by xgraph just before drawing is to
  * begin.  The desired size of the plot is given by `width'
@@ -105,31 +108,31 @@ int idrawInit(strm, width, height, title_family, title_size,
  *	can be integrated into documents with less effort.  For example,
  *	the Postscript output routines produce bounding box information
  *	when this flag is set.
- * The routine should fill in all of the fields of `out_info' with 
+ * The routine should fill in all of the fields of `out_info' with
  * appropriate values.  The values are described below:
- *  area_w, area_h:  
+ *  area_w, area_h:
  * 	Size of the drawing space in device coordinates.
  *	This should take in account the requested area
  *	given by `width', and `height'.
- *  bdr_pad:  
+ *  bdr_pad:
  * 	Xgraph will leave this number of device coordinates around
  *	all of the outer edges of the graph.
- *  axis_pad: 
+ *  axis_pad:
  *	Additional space around axis labels (in devcoords)
  *	so that the labels do not appear crowded.
  *  legend_pad:
  *	Space (in devcoords) from the top of legend text to
  *	the representative line drawn above the legend text.
- *  tick_len:    
+ *  tick_len:
  *	Size of a tick mark placed on axis (in devcoords)
- *  axis_width:  
+ *  axis_width:
  *	An estimate of the width of a large character in
  *      the axis font (in devcoords).  This can be an overestimate.  An
  *      underestimate may produce bad results.
- *  axis_height: 
+ *  axis_height:
  *	An estimate of the height of a large character in
  *      the axis labeling font (in devcoords).
- *  title_width, title_height:  
+ *  title_width, title_height:
  *	Same as above except for the title font.
  *  max_segs:
  *	Due to buffering constraints,  some devices may not be able to
@@ -145,51 +148,52 @@ int idrawInit(strm, width, height, title_family, title_size,
  * `errmsg' with an informative error message.
  */
 {
-	Info	*idraw_info;
-	char	**l;
-	double	scx, scy;
+    Info   *idraw_info;
+    char  **l;
+    double  scx,
+            scy;
 
-	idraw_info = (Info *) malloc(sizeof(*idraw_info));
+    idraw_info = (Info *) Malloc(sizeof(*idraw_info));
 
-	for (l = idraw_prologue; *l; l++)
-		fprintf(strm, "%s\n", *l);
+    for (l = idraw_prologue; *l; l++)
+	fprintf(strm, "%s\n", *l);
 
-	out_info -> dev_flags = 0;
-	scx = width / 612;
-	scy = height / 792.0;
-	if (scx > scy) {
-		scy /= scx;
-		scx = 1;
-	}
-	else {
-		scx /= scy;
-		scy = 1;
-	}
-	out_info -> bdr_pad = title_size/4;
-	out_info -> axis_pad = 2.0 * axis_size;
-	out_info -> legend_pad = 0;
+    out_info->dev_flags = 0;
+    scx = width / 612;
+    scy = height / 792.0;
+    if (scx > scy) {
+	scy /= scx;
+	scx = 1;
+    }
+    else {
+	scx /= scy;
+	scy = 1;
+    }
+    out_info->bdr_pad = title_size / 4;
+    out_info->axis_pad = 2.0 * axis_size;
+    out_info->legend_pad = 0;
 
-	out_info -> area_w = width * 0.00283; /* pts per micron */ 
-	out_info -> area_h = height * 0.00283;
+    out_info->area_w = width * 0.00283;	/* pts per micron */
+    out_info->area_h = height * 0.00283;
 
-	out_info -> tick_len = axis_size;
-	out_info -> axis_height = axis_size;
-	out_info -> title_height = title_size;
-	out_info -> axis_width = (axis_size*5.0) / 12.0;
-	out_info -> title_width = (title_size*5.0) / 12.0; 
-	out_info -> max_segs = 100;
-	out_info -> xg_text = idrawText;
-	out_info -> xg_seg = idrawSeg;
-	out_info -> xg_dot = idrawDot;
-	out_info -> xg_end = idrawEnd;
-	out_info -> user_state = (char *) idraw_info;
+    out_info->tick_len = axis_size;
+    out_info->axis_height = axis_size;
+    out_info->title_height = title_size;
+    out_info->axis_width = (axis_size * 5.0) / 12.0;
+    out_info->title_width = (title_size * 5.0) / 12.0;
+    out_info->max_segs = 100;
+    out_info->xg_text = idrawText;
+    out_info->xg_seg = idrawSeg;
+    out_info->xg_dot = idrawDot;
+    out_info->xg_end = idrawEnd;
+    out_info->user_state = (char *) idraw_info;
 
-	idraw_info -> title_font = title_family;
-	idraw_info -> axis_font = axis_family;
-	idraw_info -> title_size = title_size;
-	idraw_info -> axis_size = axis_size;
-	idraw_info -> strm = strm;
-	return 1;
+    idraw_info->title_font = title_family;
+    idraw_info->axis_font = axis_family;
+    idraw_info->title_size = title_size;
+    idraw_info->axis_size = axis_size;
+    idraw_info->strm = strm;
+    return 1;
 }
 
 /* Text justifications */
@@ -207,11 +211,14 @@ int idrawInit(strm, width, height, title_family, title_size,
 #define T_AXIS		0
 #define T_TITLE		1
 
-static void idraw_just(x, y, just, size, len)
-int *x, *y;			/* Given location (lower left) */
-int just;			/* Justification */
-int size;			/* Size in points */
-int len;			/* Number of chars */
+static void 
+idraw_just(x, y, just, size, len)
+int    *x,
+       *y;			/* Given location (lower left) */
+int     just;			/* Justification */
+int     size;			/* Size in points */
+int     len;			/* Number of chars */
+
 /*
  * Unfortunately, idraw really can't display text with a justification.
  * This is a horrible hack to try to get around the problem.  It tries
@@ -220,38 +227,39 @@ int len;			/* Number of chars */
  * This is only a hack...
  */
 {
-    int t_width, t_height;
+    int     t_width,
+            t_height;
 
     t_height = size;
-    t_width = (size * len * 5)/12;	/* Horrible estimate */
+    t_width = (size * len * 5) / 12;	/* Horrible estimate */
 
     switch (just) {
     case T_CENTER:
-	*x -= t_width/2;
-	*y += t_height/2;
+	*x -= t_width / 2;
+	*y += t_height / 2;
 	break;
     case T_LEFT:
-	*y += t_height/2;
+	*y += t_height / 2;
 	break;
     case T_UPPERLEFT:
 	/* nothing */
 	break;
     case T_TOP:
-	*x -= t_width/2;
+	*x -= t_width / 2;
 	break;
     case T_UPPERRIGHT:
 	*x -= t_width;
 	break;
     case T_RIGHT:
 	*x -= t_width;
-	*y += t_height/2;
+	*y += t_height / 2;
 	break;
     case T_LOWERRIGHT:
 	*x -= t_width;
 	*y += t_height;
 	break;
     case T_BOTTOM:
-	*x -= t_width/2;
+	*x -= t_width / 2;
 	*y += t_height;
 	break;
     case T_LOWERLEFT:
@@ -259,19 +267,22 @@ int len;			/* Number of chars */
 	break;
     }
 
-    /* 
-     * Also, idraw seems to put a space above all text it draws.
-     * The computation below compensates for this.
+    /*
+     * Also, idraw seems to put a space above all text it draws. The
+     * computation below compensates for this.
      */
-    *y += (size/3);
+    *y += (size / 3);
 }
 
-void idrawText(user_state, x, y, text, just, style)
-char *user_state;		/* Value set in xg_init   */
-int x, y;			/* Text position (pixels) */
-char *text;			/* Null terminated text   */
-int just;			/* Justification (above)  */
-int style;			/* Text style (above)     */
+void 
+idrawText(user_state, x, y, text, just, style)
+char   *user_state;		/* Value set in xg_init   */
+int     x,
+        y;			/* Text position (pixels) */
+char   *text;			/* Null terminated text   */
+int     just;			/* Justification (above)  */
+int     style;			/* Text style (above)     */
+
 /*
  * This routine should draw text at the indicated position using
  * the indicated justification and style.  The justification refers
@@ -280,30 +291,30 @@ int style;			/* Text style (above)     */
  * edge of the text string.
  */
 {
-	char	*font;
-	int	size;
-	Info	*idraw = (Info *) user_state;
+    char   *font;
+    int     size;
+    Info   *idraw = (Info *) user_state;
 
-	FIX(y);
-	font = style == T_AXIS ? idraw -> axis_font:
-		idraw -> title_font;
-	size = style == T_AXIS ? idraw -> axis_size:
-		idraw -> title_size;
+    FIX(y);
+    font = style == T_AXIS ? idraw->axis_font :
+	idraw->title_font;
+    size = style == T_AXIS ? idraw->axis_size :
+	idraw->title_size;
 
-	idraw_just(&x, &y, just, size, strlen(text));
+    idraw_just(&x, &y, just, size, strlen(text));
 
-	fprintf(idraw -> strm, "Begin %%I Text\n");
-	fprintf(idraw -> strm, "%%I cfg Black\n");
-	fprintf(idraw -> strm, "0 0 0 SetCFg\n");
-	fprintf(idraw -> strm, "%%I f *%s*-%d-*\n", font, size);
-	fprintf(idraw -> strm, "/%s %d SetF\n", font, size);
-	fprintf(idraw -> strm, "%%I t\n");
-	fprintf(idraw -> strm, "[ 1 0 0 1 %d %d ] concat\n", x, y);
-	fprintf(idraw -> strm, "%%I\n");
-	fprintf(idraw -> strm, "[\n");
-	fprintf(idraw -> strm, "(%s)\n", text);
-	fprintf(idraw -> strm, "] Text\n");
-	fprintf(idraw -> strm, "End\n");
+    fprintf(idraw->strm, "Begin %%I Text\n");
+    fprintf(idraw->strm, "%%I cfg Black\n");
+    fprintf(idraw->strm, "0 0 0 SetCFg\n");
+    fprintf(idraw->strm, "%%I f *%s*-%d-*\n", font, size);
+    fprintf(idraw->strm, "/%s %d SetF\n", font, size);
+    fprintf(idraw->strm, "%%I t\n");
+    fprintf(idraw->strm, "[ 1 0 0 1 %d %d ] concat\n", x, y);
+    fprintf(idraw->strm, "%%I\n");
+    fprintf(idraw->strm, "[\n");
+    fprintf(idraw->strm, "(%s)\n", text);
+    fprintf(idraw->strm, "] Text\n");
+    fprintf(idraw->strm, "End\n");
 
 }
 
@@ -312,14 +323,16 @@ int style;			/* Text style (above)     */
 #define L_ZERO		1
 #define L_VAR		2
 
-void idrawSeg(user_state, ns, seglist, width, style, lappr, color)
-char *user_state;		/* Value set in xg_init */
-int ns;				/* Number of segments   */
+void 
+idrawSeg(user_state, ns, seglist, width, style, lappr, color)
+char   *user_state;		/* Value set in xg_init */
+int     ns;			/* Number of segments   */
 XSegment *seglist;		/* X array of segments  */
-int width;			/* Width of lines       */
-int style;			/* See above            */
-int lappr;			/* Line appearence      */
-int color;			/* Line color (if any)  */
+int     width;			/* Width of lines       */
+int     style;			/* See above            */
+int     lappr;			/* Line appearence      */
+int     color;			/* Line color (if any)  */
+
 /*
  * This routine draws a number of line segments at the points
  * given in `seglist'.  Note that contiguous segments need not share
@@ -327,7 +340,7 @@ int color;			/* Line color (if any)  */
  * and drawn in style `style'.  If `style' is L_VAR,  the parameters
  * `color' and `lappr' should be used to draw the line.  Both
  * parameters vary from 0 to 7.  If the device is capable of
- * color,  `color' varies faster than `style'.  If the device 
+ * color,  `color' varies faster than `style'.  If the device
  * has no color,  `style' will vary faster than `color' and
  * `color' can be safely ignored.  However,  if the
  * the device has more than 8 line appearences,  the two can
@@ -336,55 +349,58 @@ int color;			/* Line color (if any)  */
  * xgOut structure passed back from xg_init().
  */
 {
-	Info	*idraw = (Info *) user_state;
-	short	to_style;
-	int	i, j, k;
+    Info   *idraw = (Info *) user_state;
+    short   to_style;
+    int     i,
+            j,
+            k;
 
-	static unsigned short style_list[ ] = {
-		0xffff, 0xf0f0, 0xcccc, 0xaaaa,
-		0xf060, 0xf198, 0x7f55, 0xfff0,
-		};
+    static unsigned short style_list[] =
+    {
+	0xffff, 0xf0f0, 0xcccc, 0xaaaa,
+	0xf060, 0xf198, 0x7f55, 0x0000,
+    };
 
-	to_style = style == L_AXIS ? 65535
-		: style == L_ZERO ? 65535
-		: style_list[lappr];
+    to_style = style == L_AXIS ? 65535
+	: style == L_ZERO ? 65535
+	: style_list[lappr];
 
-	for (i = 0; i < ns; i++) {
-		FIX(seglist[i].y1);
-		FIX(seglist[i].y2);
-		}
+    for (i = 0; i < ns; i++) {
+	FIX(seglist[i].y1);
+	FIX(seglist[i].y2);
+    }
 
-	for (i = 0; i < ns; i = j) {
+    for (i = 0; i < ns; i = j) {
 
-		for (j = i + 1; j < ns
-			&& seglist[j - 1].x2 == seglist[j].x1
-			&& seglist[j - 1].y2 == seglist[j].y1;
-			j++) ;
+	for (j = i + 1; j < ns
+	     && seglist[j - 1].x2 == seglist[j].x1
+	     && seglist[j - 1].y2 == seglist[j].y1;
+	     j++);
 
-		fprintf(idraw -> strm, "Begin %%I MLine\n");
-		fprintf(idraw -> strm, "%%I b %d\n", to_style);
-		fprintf(idraw -> strm, "%d 0 0 [", width);
-			/* fprintf(idraw -> strm, "%d"); */
-		fprintf(idraw -> strm, "] 0 SetB\n");
-		fprintf(idraw -> strm, "%%I cfg Black\n");
-		fprintf(idraw -> strm, "0 0 0 SetCFg\n");
-		fprintf(idraw -> strm, "%%I cbg White\n");
-		fprintf(idraw -> strm, "1 1 1 SetCBg\n");
-		fprintf(idraw -> strm, "none SetP %%I p n\n");
-		fprintf(idraw -> strm, "%%I t u\n");
+	fprintf(idraw->strm, "Begin %%I MLine\n");
+	fprintf(idraw->strm, "%%I b %d\n", to_style);
+	fprintf(idraw->strm, "%d 0 0 [", width);
+	/* fprintf(idraw -> strm, "%d"); */
+	fprintf(idraw->strm, "] 0 SetB\n");
+	fprintf(idraw->strm, "%%I cfg Black\n");
+	fprintf(idraw->strm, "0 0 0 SetCFg\n");
+	fprintf(idraw->strm, "%%I cbg White\n");
+	fprintf(idraw->strm, "1 1 1 SetCBg\n");
+	fprintf(idraw->strm, "none SetP %%I p n\n");
+	fprintf(idraw->strm, "%%I t u\n");
 
-		fprintf(idraw -> strm, "%%I %d\n", j - i + 1);
+	fprintf(idraw->strm, "%%I %d\n", j - i + 1);
 
-		for (k = i; k < j; k++)
-			fprintf(idraw -> strm, "%d %d\n",
-				seglist[k].x1, seglist[k].y1);
+	for (k = i; k < j; k++)
+	    fprintf(idraw->strm, "%d %d\n",
+		    seglist[k].x1, seglist[k].y1);
 
-		fprintf(idraw -> strm, "%d %d\n",
-			seglist[k - 1].x2, seglist[k - 1].y2);
+	fprintf(idraw->strm, "%d %d\n",
+		seglist[k - 1].x2, seglist[k - 1].y2);
 
-		fprintf(idraw -> strm, "%d MLine\n", j - i + 1);
-		fprintf(idraw -> strm, "End\n");
-	}
+	fprintf(idraw->strm, "%d MLine\n", j - i + 1);
+	fprintf(idraw->strm, "End\n");
+    }
 
 
 }
@@ -394,12 +410,15 @@ int color;			/* Line color (if any)  */
 #define P_DOT		1
 #define P_MARK		2
 
-void idrawDot(user_state, x, y, style, type, color)
-char *user_state;		/* Value set in xg_init    */
-int x, y;			/* Location in pixel units */
-int style;			/* Dot style               */
-int type;			/* Type of marker          */
-int color;			/* Marker color (if any)   */
+void 
+idrawDot(user_state, x, y, style, type, color)
+char   *user_state;		/* Value set in xg_init    */
+int     x,
+        y;			/* Location in pixel units */
+int     style;			/* Dot style               */
+int     type;			/* Type of marker          */
+int     color;			/* Marker color (if any)   */
+
 /*
  * This routine should draw a marker at location `x,y'.  If the
  * style is P_PIXEL,  the dot should be a single pixel.  If
@@ -412,18 +431,20 @@ int color;			/* Marker color (if any)   */
 {
 }
 
-void idrawEnd(user_state)
-char *user_state;
+void 
+idrawEnd(user_state)
+char   *user_state;
+
 /*
  * This routine is called after a drawing sequence is complete.
  * It can be used to clean up the user state and set the device
  * state appropriately.  This routine is optional in the structure.
  */
 {
-	Info	*idraw = (Info *) user_state;
+    Info   *idraw = (Info *) user_state;
 
-	fprintf(idraw -> strm, "End %%I eop\n");
-	fclose(idraw -> strm);
+    fprintf(idraw->strm, "End %%I eop\n");
+    fclose(idraw->strm);
 }
 
 /*
@@ -436,13 +457,15 @@ char *user_state;
  */
 
 #ifdef notdef
-extern int idrawInit( );
+extern int idrawInit();
 
-struct hard_dev idraw = {
-	"idraw format", idrawInit,
-	0, ".clipboard", 0,
-	25, "Times-Bold", 18, "Times", 12
-	};
+struct hard_dev idraw =
+{
+    "idraw format", idrawInit,
+    0, ".clipboard", 0,
+    25, "Times-Bold", 18, "Times", 12
+};
+
 #endif
 
 /*
@@ -474,4 +497,3 @@ struct hard_dev idraw = {
  *   remake xgraph.  Your device should now be available in the
  *   hardcopy dialog.
  */
-

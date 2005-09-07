@@ -1,3 +1,9 @@
+xgraph (12.1-4) unstable; urgency=low
+
+  * includes for Malloc/Calloc protos for 64-bit arch (closes: #327101)
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Wed,  7 Sep 2005 17:01:42 -0600
+
 xgraph (12.1-3) unstable; urgency=low
 
   * suggest ygraph now that it's packaged

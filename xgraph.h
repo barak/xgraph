@@ -198,6 +198,7 @@ extern char *disp_name;
 /* To make lint happy */
 extern char *Malloc();
 extern char *Realloc();
+extern char *Calloc();
 extern void Free();
 
 #ifndef _POSIX_SOURCE
