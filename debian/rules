@@ -11,7 +11,7 @@ build-stamp:
 #	# Add here commands to compile the package.
 	autoconf
 	automake
-	./configure --prefix=/usr/X11R6
+	./configure --prefix=/usr --mandir=/usr/share/man
 	$(MAKE)
 	touch build-stamp
 
@@ -36,9 +36,12 @@ install: build
 	dh_testdir
 	dh_clean -k
 	dh_installdirs
-#	# Add here commands to install the package into debian/tmp.
-	$(MAKE) install DESTDIR=`pwd`/debian/tmp
-	-rm -rf debian/tmp/usr/X11R6/man/manm
+#	# Add here commands to install the package into debian/xgraph.
+	$(MAKE) install DESTDIR=`pwd`/debian/xgraph
+	mkdir --parent debian/xgraph/usr/share/man/man1
+	mv debian/xgraph/usr/share/man/manm/xgraph.man \
+	   debian/xgraph/usr/share/man/man1/xgraph.1
+	rmdir debian/xgraph/usr/share/man/manm
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -57,7 +60,6 @@ binary-arch: build install
 #	dh_installinit
 #	dh_installcron
 #	dh_installman xgraph.man # installs in /usr/share/man/man1
-	cp xgraph.man debian/tmp/usr/X11R6/man/man1/xgraph.1
 #	dh_installinfo
 	dh_installchangelogs 
 	dh_link
