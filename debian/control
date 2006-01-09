@@ -2,7 +2,7 @@ Source: xgraph
 Section: math
 Priority: optional
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
-Standards-Version: 3.6.2
+Standards-Version: 3.6.2.1
 Build-Depends: debhelper (>=4), automake, autoconf2.13 | autoconf (<= 2.13-999), xlibs-dev | xlib6g-dev
 
 Package: xgraph
