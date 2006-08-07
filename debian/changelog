@@ -1,3 +1,9 @@
+xgraph (12.1-6) unstable; urgency=low
+
+  * allow unadorned automake name to be reclaimed (closes: #381616)
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Mon,  7 Aug 2006 10:16:43 +0100
+
 xgraph (12.1-5) unstable; urgency=low
 
   * account for broken (apart) xlibs (closes: #346816)
