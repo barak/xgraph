@@ -1,3 +1,9 @@
+xgraph (12.1-7) unstable; urgency=low
+
+  * policy rev
+
+ --
+
 xgraph (12.1-6) unstable; urgency=low
 
   * allow unadorned automake name to be reclaimed (closes: #381616)
