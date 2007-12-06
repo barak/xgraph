@@ -1,8 +1,10 @@
 xgraph (12.1-7) unstable; urgency=low
 
   * policy rev
+  * update to recent autoconf, automake, include depcomp (closes: #450453)
+  * modernize C code to flush some warnings, of various levels of scariness
 
- --
+ -- Barak A. Pearlmutter <bap@debian.org>  Thu,  6 Dec 2007 11:15:01 +0000
 
 xgraph (12.1-6) unstable; urgency=low
 
