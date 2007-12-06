@@ -2,10 +2,12 @@
 Makefile
 Makefile.in
 autoconf.h
+autom4te.cache
 build-stamp
 config.cache
 config.log
 config.status
-stamp-h
-xgraph
 configure
+stamp-h
+stamp-h1
+xgraph
