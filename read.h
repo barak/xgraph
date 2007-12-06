@@ -1,0 +1,1 @@
+int ReadData(FILE *, char *);

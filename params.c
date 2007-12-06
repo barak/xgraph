@@ -6,8 +6,8 @@
  * various X style display parameters for xgraph.
  *
  * $Log$
- * Revision 1.4  2001-10-08 08:33:31  bap
- * flush some warnings
+ * Revision 1.5  2007-12-06 11:55:13  bap
+ * flush compiler warnings of various levels of severity
  *
  * Revision 1.2  1999/12/08 19:32:41  heideman
  * strcasecmp portability fix
@@ -370,6 +370,7 @@ XFontStruct **font_info;	/* Returned font information */
 	/* Assume normal font name */
 	return (int) (*font_info = XLoadQueryFont(param_disp, name));
     }
+    return 0;
 }
 
 

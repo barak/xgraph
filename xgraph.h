@@ -11,6 +11,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/cursorfont.h>
+#include <X11/Xresource.h>
 
 /*
  * Get definitions from headers.
@@ -207,5 +208,11 @@ extern void exit();
 extern double atof();
 extern void abort();
 #endif /* _POSIX_SOURCE */
+
+/* Extra include files to quash warnings, by Barak A. Pearlmutter */
+#include "init.h"
+#include "read.h"
+#include "draw.h"
+#include "dialog.h"
 
 #endif				/* _XGRAPH_H_ */

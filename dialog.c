@@ -15,8 +15,6 @@
 #include <stdio.h>
 #include <X11/Xutil.h>
 
-void    do_error();
-
 #define MAXCHBUF	1024
 
 #ifdef SHADOW

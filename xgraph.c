@@ -10,8 +10,8 @@
  * of this software.
  *
  * $Log$
- * Revision 1.3  2001-10-08 07:39:41  bap
- * cvs update -jdebian_version_XXX -jupstream_version_12_1
+ * Revision 1.4  2007-12-06 11:55:13  bap
+ * flush compiler warnings of various levels of severity
  *
  * Revision 1.3  1999/12/19 00:52:07  heideman
  * warning suppresion, slightly different flot ahndling
@@ -37,7 +37,10 @@ static char rcsid[] = "$Id$";
 #include "hard_devices.h"
 #include "params.h"
 
-
+extern void DelWindow(Window, LocalWin *);
+extern void PrintWindow(Window,LocalWin *);
+extern int HandleZoom(char *, XButtonPressedEvent *, LocalWin *, Cursor);
+
 extern void init_X();
 extern void do_error();
 
@@ -83,7 +86,7 @@ char *disp_name;
 
 
 
-main(argc, argv)
+int main(argc, argv)
 int     argc;
 char   *argv[];
 
@@ -922,7 +925,7 @@ int     DO;                     /* Derivative Order.  */
 }
 
 
-DelWindow(win, win_info)
+void DelWindow(win, win_info)
 Window  win;			/* Window     */
 LocalWin *win_info;		/* Local Info */
 
@@ -942,7 +945,7 @@ LocalWin *win_info;		/* Local Info */
     Num_Windows -= 1;
 }
 
-PrintWindow(win, win_info)
+void PrintWindow(win, win_info)
 Window  win;			/* Window       */
 LocalWin *win_info;		/* Local Info   */
 

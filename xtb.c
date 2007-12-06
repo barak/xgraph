@@ -867,7 +867,7 @@ unsigned long pix;
 }
 
 /* For debugging */
-focus_evt(evt)
+void focus_evt(evt)
 XEvent *evt;
 {
     switch (evt->xfocus.mode) {

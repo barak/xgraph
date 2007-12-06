@@ -13,8 +13,8 @@
  *	void		MemChain();
  *
  * $Log$
- * Revision 1.1  2001-10-08 05:53:11  bap
- * Initial revision
+ * Revision 1.2  2007-12-06 11:55:14  bap
+ * flush compiler warnings of various levels of severity
  *
  * Revision 1.1.1.1  1999/12/03 23:15:53  heideman
  * xgraph-12.0
@@ -137,7 +137,7 @@ Ptr     tptr;
 	if (tptr != (Ptr) 0)
 	    *((long *) tptr) = SIG_GOOD;
 	(void) fprintf(stderr,
-		       "*** Out of memory in %s (current allocation %d).\n",
+		       "*** Out of memory in %s (current allocation %d, allocating %d).\n",
 		       action, memused, n);
 
 	abort();

@@ -273,7 +273,7 @@ int     color;			/* line color */
 	    fprintf(userState->plotterFile, "PU;PA%d,%d;", MAPX(userState, llx),
 		    MAPY(userState, lly));
 	    fprintf(userState->plotterFile, "PM0;");
-	    fprintf(userState->plotterFile, "PD,PA%d,%D;PA%d,%D;PA%d,%d;\n",
+	    fprintf(userState->plotterFile, "PD,PA%d,%d;PA%d,%d;PA%d,%d;\n",
 		    MAPX(userState, lrx), MAPY(userState, lry),
 		    MAPX(userState, urx), MAPY(userState, ury),
 		    MAPX(userState, ulx), MAPY(userState, uly));
