@@ -4,3 +4,5 @@ prerm.debhelper
 substvars
 substvars.debhelper
 tmp
+xgraph
+xgraph.substvars
