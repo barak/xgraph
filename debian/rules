@@ -19,7 +19,7 @@ clean:
 	dh_testdir
 	rm -f build-stamp
 #	# Add here commands to clean up after the build process.
-	-$(MAKE) clean
+	if [ -e Makefile ]; then $(MAKE) clean; fi
 #	# stuff created by ./configure
 	rm -f Makefile Makefile.in config.{cache,log,status} stamp-h
 #	# In case Makefile doesn't exist ...
