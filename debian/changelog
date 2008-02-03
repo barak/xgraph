@@ -1,3 +1,9 @@
+xgraph (12.1-9) unstable; urgency=low
+
+  * invoke aclocal in debian/rules to update configure.in (closes: #463470)
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Sun,  3 Feb 2008 10:00:22 +0000
+
 xgraph (12.1-8) unstable; urgency=low
 
   * minor lintian warnings, dated alternative build dependencies
