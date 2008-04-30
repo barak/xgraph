@@ -22,7 +22,7 @@ clean:
 #	# Add here commands to clean up after the build process.
 	if [ -e Makefile ]; then $(MAKE) clean; fi
 #	# stuff created by ./configure
-	rm -f Makefile Makefile.in config.{cache,log,status} stamp-h
+	rm -f Makefile Makefile.in config.cache config.log config.status stamp-h
 #	# In case Makefile doesn't exist ...
 	rm -f xgraph
 	rm -f *.o core *.core

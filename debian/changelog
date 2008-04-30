@@ -1,3 +1,9 @@
+xgraph (12.1-10rc) unstable; urgency=low
+
+  * remove bashism from debian/rules (closes: #478641)
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Wed, 30 Apr 2008 07:21:42 +0100
+
 xgraph (12.1-9) unstable; urgency=low
 
   * invoke aclocal in debian/rules to update configure.in (closes: #463470)
