@@ -2,8 +2,8 @@ Source: xgraph
 Section: math
 Priority: optional
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
-Standards-Version: 3.7.3
-Build-Depends: debhelper (>= 5), automake, autoconf, libx11-dev, x11proto-core-dev
+Standards-Version: 3.8.0
+Build-Depends: debhelper (>= 7), automake, autoconf, libx11-dev, x11proto-core-dev
 
 Package: xgraph
 Architecture: any

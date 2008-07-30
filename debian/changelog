@@ -1,8 +1,19 @@
-xgraph (12.1-10rc) unstable; urgency=low
+xgraph (12.1-10) unstable; urgency=low
 
   * remove bashism from debian/rules (closes: #478641)
+  * integrate NMU 12.1-9.1; thanks Ben!
+  * xgraph(1) patch from A. Costa (closes: #465521)
+  * rev deb policy version
+  * rev debhelper version
 
- -- Barak A. Pearlmutter <bap@debian.org>  Wed, 30 Apr 2008 07:21:42 +0100
+ -- Barak A. Pearlmutter <bap@debian.org>  Wed, 30 Jul 2008 16:24:00 +0200
+
+xgraph (12.1-9.1) unstable; urgency=low
+
+  * Non-maintainer upload
+  * Invoke aclocal *before* autoconf (closes: #463470)
+
+ -- Ben Hutchings <ben@decadent.org.uk>  Tue, 29 Jul 2008 00:02:25 +0100
 
 xgraph (12.1-9) unstable; urgency=low
 
