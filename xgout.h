@@ -5,7 +5,8 @@
  * to the graphing program xgraph.
  */
 
-#include "xgraph.h"
+#ifndef _XGOUT_H_
+#define _XGOUT_H_
 
 /* Passed device option flags */
 #define D_DOCU		0x01
@@ -62,3 +63,5 @@ typedef struct xg_out {
 } xgOut;
 
 #define ERRBUFSIZE	2048
+
+#endif

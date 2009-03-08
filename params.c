@@ -32,7 +32,7 @@ XColor  param_null_color =
 param_style param_null_style =
 {STYLE, 0, (char *) 0};
 
-static st_table *param_table = (st_table *) 0;
+static struct st_table *param_table = 0;
 
 typedef struct param_full_defn {
     param_types type;

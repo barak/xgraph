@@ -26,4 +26,10 @@ struct hard_dev {
 extern int hard_count;
 extern struct hard_dev hard_devices[];
 
+#define D_HPGL 0
+#define D_POSTSCRIPT 1
+#define D_IDRAW 2
+#define D_TGIF 3
+#define D_XWINDOWS 4
+
 extern void hard_init();
