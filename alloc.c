@@ -51,10 +51,7 @@
  * Initial revision
  *
  */
-#ifndef lint
-static char rcsid[] = "$Id$";
 
-#endif				/* lint */
 #include <stdio.h>
 #ifdef __STDC__
 #include <stdlib.h>

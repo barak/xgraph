@@ -18,9 +18,6 @@
  * xgraph-12.0
  *
  */
-#ifndef lint
-static char rcsid[] = "$Id$";
-#endif
 
 #include "copyright.h"
 #include <stdio.h>

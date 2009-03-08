@@ -1,13 +1,11 @@
-.deps
+.deps/
 Makefile
 Makefile.in
 autoconf.h
-autom4te.cache
-build-stamp
-config.cache
+autom4te.cache/
 config.log
 config.status
 configure
-stamp-h
 stamp-h1
+*.o
 xgraph
