@@ -9,3 +9,4 @@ configure
 stamp-h1
 *.o
 xgraph
+build-stamp
