@@ -3,8 +3,9 @@ xgraph (12.1-12) unstable; urgency=low
   * rename getline (now stepped on by libc) to get_line (closes: #552904)
   * support uscan with debian/watch
   * rev deb std
+  * shorten/simplify debian/rules
 
- -- Barak A. Pearlmutter <bap@debian.org>  Thu, 29 Oct 2009 13:44:51 -0400
+ -- Barak A. Pearlmutter <bap@debian.org>  Thu, 29 Oct 2009 14:01:54 -0400
 
 xgraph (12.1-11) unstable; urgency=low
 
