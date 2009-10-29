@@ -1,81 +1,17 @@
 #!/usr/bin/make -f
-# Sample debian/rules that uses debhelper.
-# GNU copyright 1997 to 1999 by Joey Hess.
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+build clean install binary-arch binary-indep binary:
+	dh $@
 
-build: build-stamp
-build-stamp:
-	dh_testdir
-#	# Add here commands to compile the package.
+override_dh_auto_configure:
 	aclocal
 	autoconf
 	automake
-	./configure --prefix=/usr --mandir=/usr/share/man
-	$(MAKE)
-	touch build-stamp
+	dh_auto_configure
 
-clean:
-	dh_testdir
-	rm -f build-stamp
-#	# Add here commands to clean up after the build process.
-	if [ -e Makefile ]; then $(MAKE) clean; fi
-#	# stuff created by ./configure
-	rm -f Makefile Makefile.in config.cache config.log config.status stamp-h
-#	# In case Makefile doesn't exist ...
-	rm -f xgraph
-	rm -f *.o core *.core
-	-test -r /usr/share/misc/config.sub && \
-	cp -f /usr/share/misc/config.sub config.sub
-	-test -r /usr/share/misc/config.guess && \
-	cp -f /usr/share/misc/config.guess config.guess
-#	# debian build cruft
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_clean -k
-	dh_installdirs
-#	# Add here commands to install the package into debian/xgraph.
-	$(MAKE) install DESTDIR=`pwd`/debian/xgraph
-	mkdir --parent debian/xgraph/usr/share/man/man1
-	mv debian/xgraph/usr/share/man/manm/xgraph.man \
-	   debian/xgraph/usr/share/man/man1/xgraph.1
+override_dh_auto_install:
+	dh_auto_install
+	rm    debian/xgraph/usr/share/man/manm/xgraph.man
 	rmdir debian/xgraph/usr/share/man/manm
 
-# Build architecture-independent files here.
-binary-indep: build install
-# We have nothing to do by default.
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-#	dh_installdebconf	
-	dh_installdocs --noscripts
-	dh_installexamples examples/*.xg
-#	dh_installmenu    # no menu because it needs data from file or stdin
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installinit
-#	dh_installcron
-#	dh_installman xgraph.man # installs in /usr/share/man/man1
-#	dh_installinfo
-	dh_installchangelogs 
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-#	# You may want to make some executables suid here.
-#	dh_suidregister
-#	dh_makeshlibs
-	dh_installdeb
-#	dh_perl
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install
+.PHONY: build clean install binary-arch binary-indep binary
