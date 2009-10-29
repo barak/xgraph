@@ -9,7 +9,7 @@ Vcs-Browser: http://git.debian.org/?p=collab-maint/xgraph.git
 
 Package: xgraph
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: ygraph
 Description: Plotting program, reads stdin, allows interactive zooming
  Accepts data files or stdin in a form similar to the unix program
