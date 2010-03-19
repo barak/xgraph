@@ -1,3 +1,9 @@
+xgraph (12.1-13) UNRELEASED; urgency=low
+
+  * bump deb standards
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Fri, 19 Mar 2010 22:56:02 +0000
+
 xgraph (12.1-12) unstable; urgency=low
 
   * rename getline (now stepped on by libc) to get_line (closes: #552904)
