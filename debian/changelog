@@ -1,8 +1,9 @@
-xgraph (12.1-13) UNRELEASED; urgency=low
+xgraph (12.1-13) unstable; urgency=low
 
   * bump deb standards
+  * Switch to dpkg-source 3.0 (git) format
 
- -- Barak A. Pearlmutter <bap@debian.org>  Fri, 19 Mar 2010 22:56:02 +0000
+ -- Barak A. Pearlmutter <bap@debian.org>  Thu, 25 Mar 2010 18:56:41 +0000
 
 xgraph (12.1-12) unstable; urgency=low
 
