@@ -3,7 +3,7 @@ Section: math
 Priority: optional
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
 Standards-Version: 3.9.1
-Build-Depends: debhelper (>= 7.2.5), automake, autoconf, libx11-dev, x11proto-core-dev
+Build-Depends: debhelper (>= 8), automake, autoconf, libx11-dev, x11proto-core-dev
 Vcs-Git: git://git.debian.org/git/collab-maint/xgraph.git
 Vcs-Browser: http://git.debian.org/?p=collab-maint/xgraph.git
 
