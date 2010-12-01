@@ -1,8 +1,10 @@
 xgraph (12.1-14) UNRELEASED; urgency=low
 
   * bump standards version (debian/control)
+  * dh --parallel (debian/rules)
+  * dh 8 (debian/compat, debian/control)
 
- -- Barak A. Pearlmutter <bap@debian.org>  Mon, 02 Aug 2010 14:38:45 +0200
+ -- Barak A. Pearlmutter <bap@debian.org>  Wed, 01 Dec 2010 12:41:03 +0000
 
 xgraph (12.1-13) unstable; urgency=low
 
