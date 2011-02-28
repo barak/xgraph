@@ -1,7 +1,7 @@
 xgraph (12.1-14) UNRELEASED; urgency=low
 
   * bump standards version (debian/control)
-  * dh --parallel (debian/rules)
+  * dh --parallel, dh --with autotools_dev (debian/rules)
   * dh 8 (debian/compat, debian/control)
   * refresh autotools
 
