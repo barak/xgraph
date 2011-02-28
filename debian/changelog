@@ -1,4 +1,4 @@
-xgraph (12.1-14) UNRELEASED; urgency=low
+xgraph (12.1-14) unstable; urgency=low
 
   * bump standards version (debian/control)
   * dh --parallel, dh --with autotools_dev (debian/rules)
