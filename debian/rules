@@ -1,7 +1,11 @@
 #!/usr/bin/make -f
 
-build clean install binary-arch binary-indep binary:
+dh_targets=binary binary-arch binary-indep build build-arch build-indep clean install
+
+$(dh_targets) %:
 	dh $@ --parallel --with autotools_dev
+
+.PHONY: $(dh_targets)
 
 override_dh_auto_configure:
 	aclocal
@@ -13,5 +17,3 @@ override_dh_auto_install:
 	dh_auto_install
 	rm    debian/xgraph/usr/share/man/manm/xgraph.man
 	rmdir debian/xgraph/usr/share/man/manm
-
-.PHONY: build clean install binary-arch binary-indep binary
