@@ -358,9 +358,7 @@ XFontStruct **font_info;	/* Returned font information */
 		/* Load first one that you can */
 		for (i = 0; i < font_count; i++)
 		  if ((*font_info = XLoadQueryFont(param_disp, font_list[i])))
-			break;
-		if (*font_info)
-		    return 1;
+			return 1;
 	    }
 	}
 	/* Assume normal font name */
