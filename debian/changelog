@@ -1,3 +1,13 @@
+xgraph (12.1-15) unstable; urgency=low
+
+  * silence some lintian debian/rules and man page warnings
+  * dh --with autoreconf
+  * segfault patch, thanks to Jim Meyering (closes: #647889)
+  * bump debian policy version
+  * single debian patch dpkg source option
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Mon, 07 Nov 2011 11:32:39 +0000
+
 xgraph (12.1-14) unstable; urgency=low
 
   * bump standards version (debian/control)
