@@ -1,4 +1,7 @@
-xgraph/
-files
 *.log
 *.substvars
+/autoreconf.after
+/autoreconf.before
+/files
+/patches/
+/xgraph/
