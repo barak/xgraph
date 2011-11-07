@@ -3,7 +3,7 @@
 dh_targets=binary binary-arch binary-indep build build-arch build-indep clean install
 
 $(dh_targets) %:
-	dh $@ --parallel --with autotools_dev
+	dh $@ --parallel --with autoreconf
 
 .PHONY: $(dh_targets)
 
