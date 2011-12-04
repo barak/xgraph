@@ -1,6 +1,8 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT([xgraph],[12.1])
 AC_CONFIG_SRCDIR([xgraph.c])
+AM_INIT_AUTOMAKE([foreign])
+
 AC_CONFIG_HEADERS([autoconf.h])
 AM_INIT_AUTOMAKE
 
@@ -23,6 +25,8 @@ dnl checks for compiler characteristics
 
 dnl checks for library functions
 AC_CHECK_FUNCS(strcasecmp)
+
+dnl checks for system services
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

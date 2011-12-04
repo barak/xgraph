@@ -13,26 +13,10 @@ xgraph_SOURCES = xgraph.c xgX.c hard_devices.c dialog.c hpgl.c ps.c	\
 
 man_MANS = xgraph.man
 
-EXTRA_DIST=\
-	$(man_MANS) \
-	README.ANNOUNCE \
-	README.GENERAL \
-	README.HARDCOPY \
-	README.INSTALL \
-	README.NEWFEATURES \
-	bitmaps/dot.11 \
-	bitmaps/gray \
-	bitmaps/mark1.11 \
-	bitmaps/mark2.11 \
-	bitmaps/mark3.11 \
-	bitmaps/mark4.11 \
-	bitmaps/mark5.11 \
-	bitmaps/mark6.11 \
-	bitmaps/mark7.11 \
-	bitmaps/mark8.11 \
-	examples/Animation.xg \
-	examples/bar.xg \
-	examples/surface.xg \
-	examples/surface2.xg \
-	examples/surface3.xg \
-	examples/xgtest.xg
+EXTRA_DIST= $(man_MANS) README.ANNOUNCE README.GENERAL			\
+	README.HARDCOPY README.INSTALL README.NEWFEATURES		\
+	bitmaps/dot.11 bitmaps/gray bitmaps/mark1.11 bitmaps/mark2.11	\
+	bitmaps/mark3.11 bitmaps/mark4.11 bitmaps/mark5.11		\
+	bitmaps/mark6.11 bitmaps/mark7.11 bitmaps/mark8.11		\
+	examples/Animation.xg examples/bar.xg examples/surface.xg	\
+	examples/surface2.xg examples/surface3.xg examples/xgtest.xg
