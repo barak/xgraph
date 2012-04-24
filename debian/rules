@@ -1,17 +1,7 @@
 #!/usr/bin/make -f
 
-dh_targets=binary binary-arch binary-indep build build-arch build-indep clean install
-
-$(dh_targets) %:
+%:
 	dh $@ --parallel --with autoreconf
-
-.PHONY: $(dh_targets)
-
-override_dh_auto_configure:
-	aclocal
-	autoconf
-	automake
-	dh_auto_configure
 
 override_dh_auto_install:
 	dh_auto_install
