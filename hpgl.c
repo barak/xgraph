@@ -255,11 +255,8 @@ int     color;			/* line color */
 	            lrx,
 	            lry;
 
-	    frac = (width / 2) / sqrt((double)
-				      ((segs[i].x1 - segs[i].x2) *
-				       (segs[i].x1 - segs[i].x2)) +
-				      ((segs[i].y1 - segs[i].y2) *
-				       (segs[i].y1 - segs[i].y2)));
+	    frac = (width / 2) / hypot(segs[i].x1 - segs[i].x2,
+				       segs[i].y1 - segs[i].y2);
 	    lx = frac * (segs[i].y2 - segs[i].y1);
 	    ly = -frac * (segs[i].x2 - segs[i].x1);
 	    urx = segs[i].x2 + lx;
