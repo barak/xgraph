@@ -379,15 +379,6 @@ int     flags;			/* Options */
     PointList *spot;
     PointList *pspot;
 
-    static char *paramstr[] =
-    {
-	"Cannot plot negative %s values\n",
-	"when the logarithmic option is selected.\n",
-	"Number of points in %d and %d don't match for stacking.\n",
-	"Point %d in %d and %d doesn't match for stacking.\n",
-	"Set %d has 0 %s.\n"
-    };
-
     if (flags & (FITX|FITY)) 
 	for (i = 0; i < MAXSETS; i++) 
 	    for (spot = PlotData[i].list; spot; spot = spot->next) {
@@ -403,11 +394,11 @@ int     flags;			/* Options */
 		maxx = maxx - minx;
 		maxy = maxy - miny;
 		if (maxx == 0.0) {
-		    (void) fprintf(stderr, paramstr[3], i, "width");
+		    (void) fprintf(stderr, "Set %d has 0 %s.\n", i, "width");
 		    maxx = 1.0;
 		}
 		if (maxy == 0.0) {
-		    (void) fprintf(stderr, paramstr[3], i, "height");
+		    (void) fprintf(stderr, "Set %d has 0 %s.\n", i, "height");
 		    maxy = 1.0;
 		}
 		switch (flags & (FITX|FITY)) {
@@ -435,12 +426,12 @@ int     flags;			/* Options */
 	    for (spot = PlotData[i].list, pspot = PlotData[i - 1].list;
 		 spot && pspot; spot = spot->next, pspot = pspot->next) {
 		if (spot->numPoints != pspot->numPoints) {
-		    (void) fprintf(stderr, paramstr[2], i - 1, i);
+		    (void) fprintf(stderr, "Point count mismatch, sets %d and %d\n", i - 1, i);
 		    exit(1);
 		}
 		for (j = 0; j < spot->numPoints; j++) {
 		    if (spot->xvec[j] != pspot->xvec[j]) {
-			(void) fprintf(stderr, paramstr[3], j, i - 1, i);
+			(void) fprintf(stderr, "Point %d in %d and %d doesn't match for stacking.\n", j, i - 1, i);
 			exit(1);
 		    }
 		    spot->yvec[j] += pspot->yvec[j];
@@ -459,8 +450,8 @@ int     flags;			/* Options */
 		    else if (spot->yvec[j] == 0)
 			spot->yvec[j] = 0.0;
 		    else {
-			(void) fprintf(stderr, paramstr[0], "Y");
-			(void) fprintf(stderr, paramstr[1]);
+			(void) fprintf(stderr, "Cannot plot negative %s values\n", "Y");
+			(void) fprintf(stderr, "when the logarithmic option is selected.\n");
 			exit(1);
 		    }
 		}
@@ -471,8 +462,8 @@ int     flags;			/* Options */
 		    else if (spot->xvec[j] == 0)
 			spot->xvec[j] = 0.0;
 		    else {
-			(void) fprintf(stderr, paramstr[0], "X");
-			(void) fprintf(stderr, paramstr[1]);
+			(void) fprintf(stderr, "Cannot plot negative %s values\n", "X");
+			(void) fprintf(stderr, "when the logarithmic option is selected.\n");
 			exit(1);
 		    }
 		}
