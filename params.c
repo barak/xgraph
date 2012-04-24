@@ -362,7 +362,7 @@ XFontStruct **font_info;	/* Returned font information */
 	    }
 	}
 	/* Assume normal font name */
-	return (int) (*font_info = XLoadQueryFont(param_disp, name));
+	return (*font_info = XLoadQueryFont(param_disp, name)) ? 1 : 0;
     }
     return 0;
 }
