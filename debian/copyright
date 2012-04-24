@@ -18,6 +18,8 @@ Nonfree forks:
 
     Another version is available via anonymous CVS described on
     http://www.cactuscode.org/VizTools/xgraph.html
+    or currently,
+    git svn clone --stdlayout http://svn.cactuscode.org/VizTools/xgraph/
 
 Upstream Authors:
 
