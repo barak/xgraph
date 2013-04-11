@@ -2,6 +2,8 @@
 
 # Copyright (C) 1999 by John Heidemann <johnh@isi.edu>
 
+AM_CPPFLAGS = -DDO_DER
+
 bin_PROGRAMS = xgraph
 
 xgraph_SOURCES = xgraph.c xgX.c hard_devices.c dialog.c hpgl.c ps.c	\
