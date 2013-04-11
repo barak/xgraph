@@ -82,6 +82,11 @@ char *Prog_Name;
 char *disp_name;
 
 
+extern Window
+NewWindow(char *progname,
+	  double lowX, double lowY,
+	  double upX, double upY,
+	  double asp, int DO);
 
 int main(argc, argv)
 int     argc;
@@ -92,8 +97,7 @@ char   *argv[];
  * The command line format is: xgraph [host:display].
  */
 {
-    Window  primary,
-            NewWindow();
+    Window  primary;
     XEvent  theEvent;
     LocalWin *win_info;
     Cursor  zoomCursor;
