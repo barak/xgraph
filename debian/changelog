@@ -1,3 +1,12 @@
+xgraph (12.1-17) unstable; urgency=low
+
+  * prevent use of the Hdcpy button from segfaulting by defining NE as the
+    right kind of null pointer (closes: #706636)
+  * bump policy version
+  * tweak debian git repo urls to current debian repo url naming scheme
+
+ -- Barak A. Pearlmutter <bap@debian.org>  Thu, 19 Sep 2013 15:02:12 +0100
+
 xgraph (12.1-16) unstable; urgency=low
 
   * bump to dh9
