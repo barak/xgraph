@@ -174,7 +174,7 @@ typedef union xtb_fmt_defn {
     xtb_fmt_align align;
 }       xtb_fmt;
 
-#define NE	0
+#define NE	((xtb_fmt*)0)
 
 DECLARE(xtb_w, xtb_fmt *, (xtb_frame * w));
  /* Returns formatting structure for frame */
