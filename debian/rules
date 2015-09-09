@@ -5,5 +5,5 @@
 
 override_dh_auto_install:
 	dh_auto_install
-	rm    debian/xgraph/usr/share/man/manm/xgraph.man
-	rmdir debian/xgraph/usr/share/man/manm
+	-rm    --verbose debian/xgraph/usr/share/man/manm/xgraph.man
+	-rmdir --verbose debian/xgraph/usr/share/man/manm
