@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT([xgraph],[12.1])
 AC_CONFIG_SRCDIR([xgraph.c])
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([foreign subdir-objects -Wall])
 
 AC_CONFIG_HEADERS([autoconf.h])
 
