@@ -5,6 +5,7 @@
 /autoconf.h
 /autoconf.h.in
 /autom4te.cache/
+/compile
 /config.log
 /config.status
 /configure
