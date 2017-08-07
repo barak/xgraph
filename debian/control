@@ -2,7 +2,7 @@ Source: xgraph
 Section: math
 Priority: optional
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
-Standards-Version: 3.9.8
+Standards-Version: 4.0.1
 Build-Depends: debhelper (>= 10),
 	libx11-dev, x11proto-core-dev
 Vcs-Git: git://anonscm.debian.org/collab-maint/xgraph.git
