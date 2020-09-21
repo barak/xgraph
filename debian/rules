@@ -3,7 +3,6 @@
 %:
 	dh $@
 
-override_dh_auto_install:
-	dh_auto_install
+execute_after_dh_auto_install:
 	-rm    --verbose debian/xgraph/usr/share/man/manm/xgraph.man
 	-rmdir --verbose debian/xgraph/usr/share/man/manm
