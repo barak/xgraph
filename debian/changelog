@@ -6,8 +6,9 @@ xgraph (12.1-18) unstable; urgency=medium
   [ Barak A. Pearlmutter ]
   * bump to dh13
   * bump policy
+  * enable hardened compilation
 
- -- Barak A. Pearlmutter <bap@debian.org>  Mon, 21 Sep 2020 10:48:30 +0100
+ -- Barak A. Pearlmutter <bap@debian.org>  Mon, 21 Sep 2020 10:56:18 +0100
 
 xgraph (12.1-17) unstable; urgency=low
 
