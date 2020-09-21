@@ -3,8 +3,7 @@ Section: math
 Priority: optional
 Maintainer: Barak A. Pearlmutter <bap@debian.org>
 Standards-Version: 4.0.1
-Build-Depends: debhelper (>= 13~),
-	libx11-dev, x11proto-core-dev
+Build-Depends: debhelper-compat (= 13), libx11-dev, x11proto-core-dev
 Vcs-Git: https://salsa.debian.org/debian/xgraph.git
 Vcs-Browser: https://salsa.debian.org/debian/xgraph
 
