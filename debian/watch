@@ -1,6 +1,2 @@
-# Watch control file.
-# Run uscan(1) to check for upstream updates and more.
-
-version=3
-
+version=4
 http://www.isi.edu/nsnam/dist/ xgraph-([\d\.]*).tar.gz
